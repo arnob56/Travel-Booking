@@ -1,0 +1,10 @@
+<!-- templates/bus/book_bus.html -->
+<h2>Book {{ bus.name }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="user_name">Your Name:</label>
+    <input type="text" id="user_name" name="user_name" required>
+
+    <button type="submit">Book</button>
+</form>
