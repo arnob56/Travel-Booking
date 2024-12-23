@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Buses</title>
+    <title>Car Rentals</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,7 +81,7 @@
         <h1>Travel Booking System</h1>
     </header>
 
-    <h2>Search for Buses</h2>
+    <h2>Search for Cars</h2>
 
     <form method="GET">
         {% csrf_token %}
@@ -98,9 +98,9 @@
     </form>
 
     {% if cars %}
-        <h3>Available Buses</h3>
+        <h3>Available Cars</h3>
         <ul>
-            {% for bus in buses %}
+            {% for rent in cars %}
                 <li>
                     <strong>{{ rent.name }}</strong><br>
                     Description: {{ rent.description }}<br>
