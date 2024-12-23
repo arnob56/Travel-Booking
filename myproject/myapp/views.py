@@ -74,6 +74,71 @@ def search_air(request):
     
 
 
+
+
+def search_trains(request):
+    trains = None
+    if request.GET:
+        from_location = request.GET.get('from_location')
+        to_location = request.GET.get('to_location')
+        journey_date = request.GET.get('journey_date')
+        trains = TravelService.objects.filter(
+            service_type='train',
+            from_location__icontains=from_location,
+            to_location__icontains=to_location,
+            journey_date=journey_date,
+        )
+    return render(request, 'search_trains.html', {'trains': trains})
+
+
+
+
+def search_launches(request):
+    launches = None
+    if request.GET:
+        from_location = request.GET.get('from_location')
+        to_location = request.GET.get('to_location')
+        journey_date = request.GET.get('journey_date')
+        launches = TravelService.objects.filter(
+            service_type='launch',
+            from_location__icontains=from_location,
+            to_location__icontains=to_location,
+            journey_date=journey_date,
+        )
+    return render(request, 'search_launches.html', {'launches': launches})  
+
+
+
+
+
+
+def car_rentals(request):
+    cars = None
+    if request.GET:
+        from_location = request.GET.get('from_location')
+        to_location = request.GET.get('to_location')
+        journey_date = request.GET.get('journey_date')
+        cars = TravelService.objects.filter(
+            service_type='rent',
+            from_location__icontains=from_location,
+            to_location__icontains=to_location,
+            journey_date=journey_date,
+        )
+    return render(request, 'car_rentals.html', {'cars': cars})    
+
+def hotel_booking(request):
+    hotels = None
+    if request.GET:
+        to_location = request.GET.get('to_location')
+        journey_date = request.GET.get('journey_date')
+        hotels = TravelService.objects.filter(
+            service_type='hotel',
+            to_location__icontains=to_location,
+            journey_date=journey_date,
+        )
+    return render(request, 'hotel_booking.html', {'hotels': hotels})  
+
+
 @login_required
 def book_bus(request, bus_id):
     travel_service = get_object_or_404(TravelService, id=bus_id)
