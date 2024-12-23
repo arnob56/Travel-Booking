@@ -56,6 +56,21 @@ def search_buses(request):
         )
     return render(request, 'search_buses.html', {'buses': buses})     # Copy and adjust for Train , Air, Launch and other. UI will be adjusted later
 
+def car_rental(request):
+    cars = None
+    if request.GET:
+        from_location = request.GET.get('from_location')
+        to_location = request.GET.get('to_location')
+        journey_date = request.GET.get('journey_date')
+        cars = TravelService.objects.filter(
+            service_type='rent',
+            from_location__icontains=from_location,
+            to_location__icontains=to_location,
+            journey_date=journey_date,
+        )
+    return render(request, 'search_buses.html', {'cars': cars})     
+
+
 @login_required
 def book_bus(request, bus_id):
     travel_service = get_object_or_404(TravelService, id=bus_id)
