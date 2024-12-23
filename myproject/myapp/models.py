@@ -1,4 +1,3 @@
-# models.py
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -20,8 +19,8 @@ class TravelService(models.Model):
     from_location = models.CharField(max_length=100)
     to_location = models.CharField(max_length=100)
     journey_date = models.DateField()
-    total_seats = models.IntegerField(default=40)  # Default seat count
-    available_seats = models.IntegerField(default=40)  # Initially same as total_seats
+    total_seats = models.IntegerField(default=40)
+    available_seats = models.IntegerField(default=40)
 
     def __str__(self):
         return self.name

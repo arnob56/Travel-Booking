@@ -3,13 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import TravelService,Booking
-from .forms import SearchForm
+from .models import TravelService, Booking
 from django.urls import reverse
-
-
-
-
 
 # Home View
 @login_required
@@ -21,78 +16,65 @@ def register(request):
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
-        
-        # Validate password match and other conditions
         if password == request.POST['confirm_password']:
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
-            
-            # After user is saved, authenticate and log the user in
             auth_login(request, user)
             messages.success(request, "Registration successful!")
-            return redirect('home')  # Redirect to home or dashboard after successful login
+            return redirect('home')
         else:
             messages.error(request, "Passwords do not match.")
-    
     return render(request, 'register.html')
 
-# Login User
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user:
             auth_login(request, user)
-            return redirect('home.html')
+            return redirect('home')
         else:
             messages.error(request, "Invalid username or password.")
     return render(request, 'login.html')
 
-# Logout User
 def logout_user(request):
     logout(request)
     return redirect('login')
 
-
-# We'll create this form shortly
-
 def search_buses(request):
-    """Search for buses."""
     buses = None
     if request.GET:
         from_location = request.GET.get('from_location')
         to_location = request.GET.get('to_location')
         journey_date = request.GET.get('journey_date')
-
         buses = TravelService.objects.filter(
             service_type='bus',
             from_location__icontains=from_location,
             to_location__icontains=to_location,
             journey_date=journey_date,
         )
-    return render(request, 'search_buses.html', {'buses': buses})
+    return render(request, 'search_buses.html', {'buses': buses})     # Copy and adjust for Train , Air, Launch and other. UI will be adjusted later
 
 @login_required
 def book_bus(request, bus_id):
     travel_service = get_object_or_404(TravelService, id=bus_id)
-
     if request.method == 'POST':
-        seats_booked = request.POST.get('seats_booked')
-        total_price = int(seats_booked) * travel_service.price
+        seats_booked = int(request.POST.get('seats_booked'))
+        if seats_booked > travel_service.available_seats:
+            messages.error(request, "Not enough available seats.")
+            return redirect('book_bus', bus_id=bus_id)
+        total_price = seats_booked * travel_service.price
         booking = Booking.objects.create(
             travel_service=travel_service,
             user=request.user,
             seats_booked=seats_booked,
             total_price=total_price,
         )
-        # Redirect to the payment page with the booking ID
+        travel_service.available_seats -= seats_booked
+        travel_service.save()
         return redirect('payment_page', booking_id=booking.id)
-
     return render(request, 'book_bus.html', {'travel_service': travel_service})
-
-
 
 def payment_page(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
@@ -101,7 +83,6 @@ def payment_page(request, booking_id):
 def confirm_payment(request, booking_id):
     if request.method == "POST":
         booking = get_object_or_404(Booking, id=booking_id)
-        # Simulate payment processing here
         booking.payment_status = 'completed'
         booking.save()
         return redirect(reverse('payment_success', args=[booking_id]))
