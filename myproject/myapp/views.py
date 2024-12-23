@@ -68,7 +68,7 @@ def car_rental(request):
             to_location__icontains=to_location,
             journey_date=journey_date,
         )
-    return render(request, 'search_buses.html', {'cars': cars})     
+    return render(request, 'car_rentals.html', {'cars': cars})     
 
 
 @login_required
