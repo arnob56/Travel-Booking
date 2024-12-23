@@ -49,10 +49,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+LOGIN_REDIRECT_URL = '/'
 ROOT_URLCONF = 'myproject.urls'
 LOGIN_URL = '/login/'          # URL for the login page
-LOGIN_REDIRECT_URL = '/'       # URL to redirect to after login
+       # URL to redirect to after login
 LOGOUT_REDIRECT_URL = '/login/'  # URL to redirect to after logout
 
 TEMPLATES = [

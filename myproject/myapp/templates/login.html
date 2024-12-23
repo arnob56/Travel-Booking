@@ -98,7 +98,7 @@
                 <div class="form-head">
                     <p> Don't Have a account?               <a href="{% url 'register' %}">Register</a></p>
                 </div>
-                <form id ="loginForm" method="POST">
+                <form id ="loginForm" method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
 
                     <div class="mb-3">

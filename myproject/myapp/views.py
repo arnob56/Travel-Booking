@@ -54,7 +54,25 @@ def search_buses(request):
             to_location__icontains=to_location,
             journey_date=journey_date,
         )
-    return render(request, 'search_buses.html', {'buses': buses})     # Copy and adjust for Train , Air, Launch and other. UI will be adjusted later
+    return render(request, 'search_buses.html', {'buses': buses}) 
+
+
+def search_air(request):
+    planes = None
+    if request.GET:
+        from_location = request.GET.get('from_location')
+        to_location = request.GET.get('to_location')
+        journey_date = request.GET.get('journey_date')
+        planes = TravelService.objects.filter(
+            service_type='plane',
+            from_location__icontains=from_location,
+            to_location__icontains=to_location,
+            journey_date=journey_date,
+        )
+    return render(request, 'search_air.html', {'planes': planes}) 
+
+    
+
 
 @login_required
 def book_bus(request, bus_id):
@@ -75,6 +93,107 @@ def book_bus(request, bus_id):
         travel_service.save()
         return redirect('payment_page', booking_id=booking.id)
     return render(request, 'book_bus.html', {'travel_service': travel_service})
+
+
+
+
+def book_train(request, train_id):
+    travel_service = get_object_or_404(TravelService, id=train_id)
+    if request.method == 'POST':
+        seats_booked = int(request.POST.get('seats_booked'))
+        if seats_booked > travel_service.available_seats:
+            messages.error(request, "Not enough available seats.")
+            return redirect('book_train', train_id=train_id)
+        total_price = seats_booked * travel_service.price
+        booking = Booking.objects.create(
+            travel_service=travel_service,
+            user=request.user,
+            seats_booked=seats_booked,
+            total_price=total_price,
+        )
+        travel_service.available_seats -= seats_booked
+        travel_service.save()
+        return redirect('payment_page', booking_id=booking.id)
+    return render(request, 'book_train.html', {'travel_service': travel_service})
+
+def book_launch(request, launch_id):
+    travel_service = get_object_or_404(TravelService, id=launch_id)
+    if request.method == 'POST':
+        seats_booked = int(request.POST.get('seats_booked'))
+        if seats_booked > travel_service.available_seats:
+            messages.error(request, "Not enough available seats.")
+            return redirect('book_launch', launch_id=launch_id)
+        total_price = seats_booked * travel_service.price
+        booking = Booking.objects.create(
+            travel_service=travel_service,
+            user=request.user,
+            seats_booked=seats_booked,
+            total_price=total_price,
+        )
+        travel_service.available_seats -= seats_booked
+        travel_service.save()
+        return redirect('payment_page', booking_id=booking.id)
+    return render(request, 'book_launch.html', {'travel_service': travel_service})
+
+def book_air(request, plane_id):
+    travel_service = get_object_or_404(TravelService, id=plane_id)
+    if request.method == 'POST':
+        seats_booked = int(request.POST.get('seats_booked'))
+        if seats_booked > travel_service.available_seats:
+            messages.error(request, "Not enough available seats.")
+            return redirect('book_air', plane_id=plane_id)
+        total_price = seats_booked * travel_service.price
+        booking = Booking.objects.create(
+            travel_service=travel_service,
+            user=request.user,
+            seats_booked=seats_booked,
+            total_price=total_price,
+        )
+        travel_service.available_seats -= seats_booked
+        travel_service.save()
+        return redirect('payment_page', booking_id=booking.id)
+    return render(request, 'book_air.html', {'travel_service': travel_service})
+
+def book_rent(request, rent_id):
+    travel_service = get_object_or_404(TravelService, id=rent_id)
+    if request.method == 'POST':
+        seats_booked = int(request.POST.get('seats_booked'))
+        if seats_booked > travel_service.available_seats:
+            messages.error(request, "Not enough available seats.")
+            return redirect('book_car', rent_id=rent_id)
+        total_price = seats_booked * travel_service.price
+        booking = Booking.objects.create(
+            travel_service=travel_service,
+            user=request.user,
+            seats_booked=seats_booked,
+            total_price=total_price,
+        )
+        travel_service.available_seats -= seats_booked
+        travel_service.save()
+        return redirect('payment_page', booking_id=booking.id)
+    return render(request, 'book_car.html', {'travel_service': travel_service})
+
+
+def book_hotel(request, hotel_id):
+    travel_service = get_object_or_404(TravelService, id=hotel_id)
+    if request.method == 'POST':
+        seats_booked = int(request.POST.get('seats_booked'))
+        if seats_booked > travel_service.available_seats:
+            messages.error(request, "Not enough available seats.")
+            return redirect('book_hotel', rent_id=hotel_id)
+        total_price = seats_booked * travel_service.price
+        booking = Booking.objects.create(
+            travel_service=travel_service,
+            user=request.user,
+            seats_booked=seats_booked,
+            total_price=total_price,
+        )
+        travel_service.available_seats -= seats_booked
+        travel_service.save()
+        return redirect('payment_page', booking_id=booking.id)
+    return render(request, 'book_hotel.html', {'travel_service': travel_service})
+
+
 
 def payment_page(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
