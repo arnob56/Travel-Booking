@@ -85,11 +85,7 @@
         <h1>Travel Booking System</h1>
     </header>
 
-<<<<<<< HEAD
-    <h2>Search for Buses</h2>
-=======
     <h2>Search for Cars</h2>
->>>>>>> 294fed8df09cde8ed6b13fd1a691aaaaea076450
 
     <form method="GET">
         {% csrf_token %}
@@ -106,15 +102,9 @@
     </form>
 
     {% if cars %}
-<<<<<<< HEAD
-        <h3>Available Gari</h3>
-        <ul>
-            {% for car in cars %}
-=======
         <h3>Available Cars</h3>
         <ul>
             {% for rent in cars %}
->>>>>>> 294fed8df09cde8ed6b13fd1a691aaaaea076450
                 <li>
                     <strong>{{ rent.name }}</strong><br>
                     Description: {{ rent.description }}<br>
@@ -122,11 +112,7 @@
                     Departure: {{ rent.from_location }} → {{ rent.to_location }}<br>
                     Journey Date: {{ rent.journey_date }}<br>
                     Available Seats: {{ rent.available_seats }}<br>
-<<<<<<< HEAD
                     <a href="{% url 'book_car' rent.id %}">Book Now</a>
-=======
-                    <a href="{% url 'book_bus' rent.id %}">Book Now</a>
->>>>>>> 294fed8df09cde8ed6b13fd1a691aaaaea076450
                 </li>
             {% endfor %}
         </ul>

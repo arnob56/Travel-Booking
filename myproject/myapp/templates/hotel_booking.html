@@ -104,7 +104,7 @@
                     Price: {{ hotel.price }} per night<br>
                     Journey Date: {{ hotel.journey_date }}<br>
                     Available Rooms: {{ hotel.available_seats }}<br>
-                    <a href="{% url 'book_bus' hotel.id %}">Book Now</a>
+                    <a href="{% url 'book_hotel' hotel.id %}">Book Now</a>
                 </li>
             {% endfor %}
         </ul>

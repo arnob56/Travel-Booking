@@ -219,7 +219,7 @@ def book_air(request, plane_id):
         return redirect('payment_page', booking_id=booking.id)
     return render(request, 'book_air.html', {'travel_service': travel_service})
 
-def book_rent(request, rent_id):
+def book_car(request, rent_id):
     travel_service = get_object_or_404(TravelService, id=rent_id)
     if request.method == 'POST':
         seats_booked = int(request.POST.get('seats_booked'))
@@ -245,7 +245,7 @@ def book_hotel(request, hotel_id):
         seats_booked = int(request.POST.get('seats_booked'))
         if seats_booked > travel_service.available_seats:
             messages.error(request, "Not enough available seats.")
-            return redirect('book_hotel', rent_id=hotel_id)
+            return redirect('book_hotel', hotel_id=hotel_id)
         total_price = seats_booked * travel_service.price
         booking = Booking.objects.create(
             travel_service=travel_service,
