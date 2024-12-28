@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
+
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import TravelService, Booking
-from django.urls import reverse
+from .models import Bus,User,BusBooking
+#from django.urls import reverse
 
 # Home View
-@login_required
+
 def home(request):
     return render(request, 'home.html')
 
@@ -45,13 +45,13 @@ def logout_user(request):
 def search_buses(request):
     buses = None
     if request.GET:
-        from_location = request.GET.get('from_location')
-        to_location = request.GET.get('to_location')
+        departure_location = request.GET.get('departure_location')
+        destination_location = request.GET.get('destination_location')
         journey_date = request.GET.get('journey_date')
-        buses = TravelService.objects.filter(
-            service_type='bus',
-            from_location__icontains=from_location,
-            to_location__icontains=to_location,
+        buses = Bus.objects.filter(
+
+            departure_location__icontains= departure_location,
+            destination_location__icontains=destination_location,
             journey_date=journey_date,
         )
     return render(request, 'search_buses.html', {'buses': buses}) 
@@ -141,23 +141,43 @@ def hotel_booking(request):
 
 @login_required
 def book_bus(request, bus_id):
-    travel_service = get_object_or_404(TravelService, id=bus_id)
+    bus = get_object_or_404(Bus, bus_id=bus_id)
     if request.method == 'POST':
-        seats_booked = int(request.POST.get('seats_booked'))
-        if seats_booked > travel_service.available_seats:
+        
+        selected_seats = request.POST.get('selected_seats')  
+        if selected_seats is None:
+            messages.error(request, "Please select the number of seats to book.")
+            return redirect('book_bus', bus_id=bus_id)
+        
+        
+        seat_list = selected_seats.split(',')
+        
+        
+        if len(seat_list) > bus.available_seats:
             messages.error(request, "Not enough available seats.")
             return redirect('book_bus', bus_id=bus_id)
-        total_price = seats_booked * travel_service.price
-        booking = Booking.objects.create(
-            travel_service=travel_service,
-            user=request.user,
-            seats_booked=seats_booked,
+
+        
+        total_price = len(seat_list) * bus.fare
+        
+        
+        booking = BusBooking.objects.create(
+            
+            bus=bus,  
+            selected_seats=selected_seats,  
             total_price=total_price,
+            
         )
-        travel_service.available_seats -= seats_booked
-        travel_service.save()
-        return redirect('payment_page', booking_id=booking.id)
-    return render(request, 'book_bus.html', {'travel_service': travel_service})
+        
+        
+        bus.available_seats -= len(seat_list)
+        bus.save()
+        
+       
+        return redirect('payment_page', booking_id=booking.bus_book_id)
+    
+    return render(request, 'book_bus.html', {'Bus': bus})
+
 
 
 
@@ -261,8 +281,8 @@ def book_hotel(request, hotel_id):
 
 
 def payment_page(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id)
-    return render(request, 'payment.html', {'booking': booking})
+    #booking = get_object_or_404(Booking, id=booking_id)
+    return render(request, 'payment.html')
 
 def confirm_payment(request, booking_id):
     if request.method == "POST":

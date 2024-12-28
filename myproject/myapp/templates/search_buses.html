@@ -85,11 +85,11 @@
 
     <form method="GET">
         {% csrf_token %}
-        <label for="from_location">From:</label>
-        <input type="text" id="from_location" name="from_location" required>
+        <label for="departure_location">From:</label>
+        <input type="text" id="departure_location" name="departure_location" required>
         <br>
-        <label for="to_location">To:</label>
-        <input type="text" id="to_location" name="to_location" required>
+        <label for="destination_location">To:</label>
+        <input type="text" id="destination_location" name="destination_location" required>
         <br>
         <label for="journey_date">Journey Date:</label>
         <input type="date" id="journey_date" name="journey_date" required>
@@ -102,13 +102,13 @@
         <ul>
             {% for bus in buses %}
                 <li>
-                    <strong>{{ bus.name }}</strong><br>
-                    Description: {{ bus.description }}<br>
-                    Price: {{ bus.price }} per seat<br>
-                    Departure: {{ bus.from_location }} → {{ bus.to_location }}<br>
+                    <strong>{{ bus.bus_name }}</strong><br>
+                    Description: {{ bus.bus_description }}<br>
+                    Price: {{ bus.fare }} per seat<br>
+                    Departure: {{ bus.departure_location }} → {{ bus.destination_location }}<br>
                     Journey Date: {{ bus.journey_date }}<br>
                     Available Seats: {{ bus.available_seats }}<br>
-                    <a href="{% url 'book_bus' bus.id %}">Book Now</a>
+                    <a href="{% url 'book_bus' bus.bus_id %}">Book Now</a>
                 </li>
             {% endfor %}
         </ul>
