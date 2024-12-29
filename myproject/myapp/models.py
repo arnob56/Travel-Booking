@@ -42,7 +42,7 @@ class BusBooking(models.Model):
     passenger_name= models.CharField(max_length=255)
     passenger_phone=models.CharField(max_length=14)
     selected_seats=models.CharField(max_length=200)
-    total_price=models.IntegerField(max_length=20, default=0)
+    total_price=models.IntegerField(default=0)
     def __str__(self):
         return f"Booking {self.bus_book_id} for {self.user if self.user else self.passenger_name}"
 

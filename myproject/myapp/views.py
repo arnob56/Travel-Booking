@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib.auth import authenticate, login as auth_login, logout,get_user_model
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Bus,User,BusBooking
@@ -139,44 +139,62 @@ def hotel_booking(request):
     return render(request, 'hotel_booking.html', {'hotels': hotels})  
 
 
-@login_required
+ # Ensures only logged-in users can book
 def book_bus(request, bus_id):
     bus = get_object_or_404(Bus, bus_id=bus_id)
+    
     if request.method == 'POST':
+        # Safely retrieve form values
+        passenger_name = request.POST.get('passenger_name', '').strip()
+        passenger_phone = request.POST.get('passenger_phone', '').strip()
+        selected_seats = request.POST.get('selected_seats', '').strip()
         
-        selected_seats = request.POST.get('selected_seats')  
-        if selected_seats is None:
+        # Validate required fields
+        if not passenger_name:
+            messages.error(request, "Passenger name is required.")
+            return redirect('book_bus', bus_id=bus_id)
+        if not passenger_phone:
+            messages.error(request, "Passenger phone is required.")
+            return redirect('book_bus', bus_id=bus_id)
+        if not selected_seats:
             messages.error(request, "Please select the number of seats to book.")
             return redirect('book_bus', bus_id=bus_id)
         
-        
+        # Split selected seats
         seat_list = selected_seats.split(',')
         
-        
+        # Check if enough seats are available
         if len(seat_list) > bus.available_seats:
             messages.error(request, "Not enough available seats.")
             return redirect('book_bus', bus_id=bus_id)
-
         
+        # Calculate total price
         total_price = len(seat_list) * bus.fare
         
+        # Resolve SimpleLazyObject to User instance
+        #User = get_user_model()  # Ensure compatibility with custom user models
+        #current_user = User.objects.get(id=request.user.id)
         
-        booking = BusBooking.objects.create(
-            
-            bus=bus,  
-            selected_seats=selected_seats,  
+        # Create a new booking and associate it with the logged-in user
+        booking = BusBooking(
+            #bus=bus,
+            passenger_name=passenger_name,
+            passenger_phone=passenger_phone,
+            selected_seats=selected_seats,
             total_price=total_price,
-            
+            #user=current_user,  # Use the resolved User instance
         )
         
-        
+        # Update available seats and save booking
         bus.available_seats -= len(seat_list)
         bus.save()
+        booking.save()
         
-       
+        # Redirect to the payment page
         return redirect('payment_page', booking_id=booking.bus_book_id)
     
-    return render(request, 'book_bus.html', {'Bus': bus})
+    # Render the booking form
+    return render(request, 'book_bus.html', {'bus': bus})
 
 
 
