@@ -1,158 +1,51 @@
-{% load static %}
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="'viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-       
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJXxqR7fPz3ExP4A" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Arial', sans-serif;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 5% auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
 
-        <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="container">
+    <div class="login-container">
+        <h2 class="login-title">Login to Your Account</h2>
 
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
 
-        <style>
-            body {
-                
-                font-family: 'Libre Franklin', sans-serif;
-                margin: 0;
-                padding: 0;
-
-
-
-            }
-
-
-            .login-container {
-                max-width: 400px;
-                margin: 100px auto;
-                padding: 25px 20px;
-                background:rgba(255,255,255,0.7);
-                border-radius:10px;
-                box-shadow:0px 4px 15px rgba(0,0,0,0.15);
-                
-            }
-
-
-            .login-container img {
-                display: block;
-                margin:0 auto 15px;
-                width: 260px;
-            }
-
-            .btn-custom{
-                background-color: #478bd6;
-                color: white;
-                font-weight:500;
-                transition: background-color 0.3s, transform 0.2s;
-            }
-
-            .login-container h1{
-                text-align:center;
-                margin-bottom: 25px;
-                color:black;
-                font-weight: 500;
-            }
-            .form-footer {
-            text-align: right;
-            margin-top: 20px;
-            }
-
-            .form-head{
-                text-align:center;
-            }
-
-            .form-footer a {
-                color:green;
-                text-align: right;
-                text-decoration: none;
-            }
-
-
-            .form-footer a:hover {
-                text-decoration: underline;
-            }
-
-            .form-head a {
-                color:orange;
-                text-decoration: none;
-            }
-
-
-            .form-head a:hover {
-                text-decoration: underline;
-            }
-
-
-
-        </style>
-    
-    </head>
-    <body>
-        <img src="{% static 'myapp/images/login.webp' %}">
-        <div class="container">
-            <div class="login-container">
-                <!--logo-->
-
-                <h1> Sign In</h1>
-                <div class="form-head">
-                    <p> Don't Have a account?               <a href="{% url 'register' %}">Register</a></p>
-                </div>
-                <form id ="loginForm" method="POST" action="{% url 'login' %}">
-                    {% csrf_token %}
-
-                    <div class="mb-3">
-                        <label for="username" class="form-label"><b> Username</b></label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Your Username" required>
-
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label"><b> Password </b></label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Your Password" required>
-                        
-                    </div>
-
-
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-custom">Login</button>
-                    
-                    </div>
-                </form>
-                <div class="form-footer">
-                    <p><a href="password-reset-url"> Forgot Password?</a> </p>
-                </div>
-            </div>
+        <div class="text-center mt-3">
+            <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+</div>
 
-        <script>
-            document.getElementById('loginForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-    
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    
-                fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({ email, password })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        alert(data.message);
-                        if (data.redirect) {
-                            window.location.href = data.redirect;
-                        }
-                    }
-                })
-                .catch(error => console.error("Error:", error));
-            });
-        </script>
-    </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0L8v9kF5kYChd0Zdb+BdO3v6nZlmJmF0dTbtA0boPbt/qSk8" crossorigin="anonymous"></script>
+
+</body>
 </html>

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Planes</title>
+    <title>Travel Booking System</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f5f5f5;
@@ -14,13 +14,34 @@
         header {
             background-color: #007BFF;
             color: white;
-            padding: 15px;
+            padding: 20px 0;
             text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1em;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #575757;
         }
         h2 {
             color: #333;
             text-align: center;
             margin-top: 20px;
+            font-size: 1.5em;
         }
         form {
             max-width: 500px;
@@ -30,6 +51,20 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
         form button {
             background-color: #007BFF;
             color: white;
@@ -37,6 +72,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 1em;
+            width: 100%;
         }
         form button:hover {
             background-color: #0056b3;
@@ -74,22 +111,60 @@
             text-align: center;
             color: #666;
         }
+        .section-header {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.8em;
+            color: #007BFF;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .login {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .login a {
+            color: white;
+            text-decoration: none;
+            background-color: #28A745;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .login a:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
     <header>
+        <div class="login">
+            <a href="{%url 'login' %}">Login</a>
+        </div>
         <h1>Travel Booking System</h1>
     </header>
+
+    <nav>
+        <a href="{%url 'search_buses' %}">Buses</a>
+        <a href="{%url 'search_trains' %}">Trains</a>
+        <a href="{%url 'search_launch' %}">Launches</a>
+        <a href="{%url 'search_air' %}">Air</a>
+        <a href="{%url 'search_parks' %}">Parks</a>
+        <a href="{%url 'search_events' %}">Events</a>
+        <a href="{%url 'search_hotels' %}">Hotels</a>
+        <a href="{%url 'search_cars' %}">Car Rental</a>
+    </nav>
 
     <h2>Search for Planes</h2>
 
     <form method="GET">
         {% csrf_token %}
-        <label for="from_location">From:</label>
-        <input type="text" id="from_location" name="from_location" required>
+        <label for="departure_airport">From:</label>
+        <input type="text" id="departure_airport" name="departure_airport" required>
         <br>
-        <label for="to_location">To:</label>
-        <input type="text" id="to_location" name="to_location" required>
+        <label for="destination_airport">To:</label>
+        <input type="text" id="destination_airport" name="destination_airport" required>
         <br>
         <label for="journey_date">Journey Date:</label>
         <input type="date" id="journey_date" name="journey_date" required>
@@ -102,13 +177,13 @@
         <ul>
             {% for plane in planes %}
                 <li>
-                    <strong>{{ plane.name }}</strong><br>
-                    Description: {{ plane.description }}<br>
-                    Price: {{ plane.price }} per seat<br>
-                    Departure: {{ plane.from_location }} → {{ plane.to_location }}<br>
-                    Journey Date: {{ plane.journey_date }}<br>
-                    Available Seats: {{ plane.available_seats }}<br>
-                    <a href="{% url 'book_air' plane.id %}">Book Now</a>
+                    <strong>{{ plane.plane_name }}</strong><br>
+                    Description: {{ plane.plane_description }}<br>
+                    Price: {{ plane.p_fare }} per seat<br>
+                    Departure: {{ plane.departure_airport }} → {{ plane.destination_airport }}<br>
+                    Journey Date: {{ plane.plane_journey_date }}<br>
+                    Available Seats: {{ plane.p_available_seats }}<br>
+                    <a href="{% url 'book_air' plane.plane_id %}">Book Now</a>
                 </li>
             {% endfor %}
         </ul>

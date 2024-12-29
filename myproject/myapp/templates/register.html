@@ -1,172 +1,51 @@
+<!-- register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up Page</title>
-
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-   
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJXxqR7fPz3ExP4A" crossorigin="anonymous">
     <style>
-       
         body {
-            background: url('file:///D:/Project/Booking App/Frontend/public/asset/img/background.webp') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #f4f6f9;
+            font-family: 'Arial', sans-serif;
         }
-
-        
-        .signup-container {
-            max-width: 450px;
-            margin: 100px auto;
+        .register-container {
+            max-width: 500px;
+            margin: 5% auto;
+            background-color: #ffffff;
             padding: 30px;
-            background: rgba(255, 255, 255, 0.7); 
-            border-radius: 15px;
-            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1); 
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
-        
-        .signup-container img {
-            display: block;
-            margin: 0 auto 20px;
-            width: 260px;
-        }
-
-        
-        .signup-container h1 {
+        .register-title {
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 30px;
-            color: #ea6003;
-            font-weight: 600;
-        }
-
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 16px;
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
-        }
-
-        .input-group-text {
-            border-radius: 10px;
-        }
-
-        
-        .btn-custom {
-            background-color:#478bd6;
-            color: white;
-            padding: 10px;
-            font-size: 16px;
-            width: 100%;
-            border-radius: 10px;
-            border: none;
-        }
-
-        .btn-custom:hover {
-            background-color: #478bd6;
-        }
-
-       
-        .form-footer {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .form-footer a {
-            color: #478bd6;
-            text-decoration: none;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
-
-       
-        @media (max-width: 576px) {
-            .signup-container {
-                margin: 50px 20px;
-            }
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #007bff;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="signup-container">
-            
-             <a href="travel_booking.html"> <img src="file:///D:/Project/Booking App/Frontend/public/asset/img/Log.svg" alt="Shohoz Logo"></a>
+<div class="container">
+    <div class="register-container">
+        <h2 class="register-title">Create Your Account</h2>
 
-            
-            <h1>Sign Up</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success btn-block">Register</button>
+        </form>
 
-            <form method="POST">
-                {% csrf_token %}
-
-
-                
-
-
-                
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address" required>
-                </div>
-
-                
-                <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder="Username" required>
-                </div>
-
-                
-                <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="Password" required>
-                </div>
-
-
-                <div class="form-group">
-                    <select class="form-control" name="gender" required>
-                        <option value="" disabled selected>Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="custom">Custom</option>
-                        <option value="rather not to say">Rather not to say</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-
-                
-                <div class="form-group">
-                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
-                </div>
-
-                
-                <button type="submit" class="btn btn-custom">Sign Up</button>
-            </form>
-
-            
-            <div class="form-footer">
-                <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
-            </div>
+        <div class="text-center mt-3">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
         </div>
     </div>
+</div>
 
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0L8v9kF5kYChd0Zdb+BdO3v6nZlmJmF0dTbtA0boPbt/qSk8" crossorigin="anonymous"></script>
+
 </body>
 </html>

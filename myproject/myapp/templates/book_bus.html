@@ -3,25 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Bus</title>
+    <title>Book Bus - Advanced UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+        }
+        header {
+            background-color: #3b5998;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .seat-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 15px;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .seat {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background-color: #e2e2e2;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .seat.selected {
+            background-color: #4CAF50;
+            color: white;
+            transform: scale(1.1);
+        }
+        .seat.unavailable {
+            background-color: #d6d6d6;
+            cursor: not-allowed;
+        }
+        .seat:hover:not(.unavailable) {
+            background-color: #66bb6a;
+            color: white;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 15px;
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container button:hover {
+            background-color: #4CAF50;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .back-link a {
+            color: #3b5998;
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        function toggleSeatSelection(seat) {
+            if (seat.classList.contains('unavailable')) {
+                alert(`Seat ${seat.dataset.seat} is unavailable!`);
+                return;
+            }
+
+            seat.classList.toggle('selected');
+            updateSelectedSeats();
+        }
+
+        function updateSelectedSeats() {
+            const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'))
+                .map(seat => seat.dataset.seat);
+            document.getElementById('selectedSeatsInput').value = selectedSeats.join(', ');
+            console.log("Selected Seats: " + selectedSeats.join(', '));
+        }
+    </script>
 </head>
 <body>
-    <h1>Book Your Bus</h1>
+    <header>Book Your Bus</header>
+
     <h2>{{ bus.bus_name }}</h2>
-    <p><strong>From:</strong> {{ bus.departure_location }}</p>
-    <p><strong>To:</strong> {{ bus.destination_location }}</p>
+    <p><strong>From:</strong> {{ bus.departure_location }} <strong>To:</strong> {{ bus.destination_location }}</p>
     <p><strong>Date:</strong> {{ bus.journey_date }}</p>
-    <h2><strong>Price per seat:</strong> {{ bus.fare }}</h2>
+    <h2>Price per Seat: {{ bus.fare }}</h2>
     <p><strong>Available Seats:</strong> {{ bus.available_seats }}</p>
 
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="passenger_name" placeholder="Passenger Name" required>
-        <input type="text" name="passenger_phone" placeholder="Passenger Phone" required>
-        <input type="text" name="selected_seats" placeholder="Selected Seats" required>
-        <button type="submit">Book</button>
-    </form>
+    <div class="seat-container">
+        {% for seat in seats %}
+            <div 
+                class="seat {% if seat not in bus.booked_seats %}unavailable{% endif %}" 
+                data-seat="{{ seat }}" 
+                onclick="toggleSeatSelection(this)">
+                {{ seat }}
+            </div>
+        {% endfor %}
+    </div>
 
-    <a href="{% url 'search_buses' %}">Back to Search</a>
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="passenger_name" placeholder="Passenger Name" required>
+            <input type="text" name="passenger_phone" placeholder="Passenger Phone" required>
+            <input type="hidden" id="selectedSeatsInput" name="selected_seats" required>
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </div>
+
+    <div class="back-link">
+        <a href="{% url 'search_buses' %}">Back to Search</a>
+    </div>
 </body>
 </html>
