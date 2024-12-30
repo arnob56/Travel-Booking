@@ -43,7 +43,7 @@ class BusBooking(models.Model):
     payment_status = models.CharField(
         max_length=10,
         choices=[('Pending', 'Pending'), ('Paid', 'Paid')],
-        default='Pending'
+        default='Paid'
     )  # New field for payment status
 
     def __str__(self):

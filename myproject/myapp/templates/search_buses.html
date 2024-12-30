@@ -140,13 +140,21 @@
 <body>
     <header>
         <div class="login">
-            <a href="#">Login</a>
+            <a href="{%url 'login'%}">Login</a>
         </div>
         <h1>Travel Booking System</h1>
     </header>
 
     <nav>
-        <a href="{%url 'search_buses' %}">Buses</a>
+        
+            <a href="{%url 'search_buses' %}">Buses</a>
+            <a href="{%url 'search_trains' %}">Trains</a>
+            <a href="{%url 'search_launches' %}">Launches</a>
+            <a href="{%url 'search_air' %}">Air</a>
+            
+            <a href="{%url 'search_hotel' %}">Hotels</a>
+            <a href="{%url 'search_cars' %}">Car Rental</a>
+
         
     </nav>
 

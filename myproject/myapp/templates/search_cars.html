@@ -146,17 +146,20 @@
     </header>
 
     <nav>
-        <a href="{%url 'search_buses' %}">Buses</a>
-        <a href="{%url 'search_trains' %}">Trains</a>
-        <a href="{%url 'search_launches' %}">Launches</a>
-        <a href="{%url 'search_air' %}">Air</a>
+        
+            <a href="{%url 'search_buses' %}">Buses</a>
+            <a href="{%url 'search_trains' %}">Trains</a>
+            <a href="{%url 'search_launches' %}">Launches</a>
+            <a href="{%url 'search_air' %}">Air</a>
+            
+            <a href="{%url 'search_hotel' %}">Hotels</a>
+            <a href="{%url 'search_cars' %}">Car Rental</a>
 
-        <a href="{%url 'search_hotel' %}">Hotels</a>
-        <a href="{%url 'search_cars' %}">Car Rental</a>
+        
     </nav>
 
-    <section id="launches">
-        <h2>Search for Launches</h2>
+    <section id="cars">
+        <h2>Search for Cars</h2>
 
         <form method="GET">
             {% csrf_token %}
@@ -172,23 +175,23 @@
             <button type="submit">Search</button>
         </form>
 
-        {% if launches %}
-            <h3>Available Launch</h3>
+        {% if cars %}
+            <h3>Available Cars</h3>
             <ul>
-                {% for launch in launches %}
+                {% for car in cars %}
                     <li>
-                        <strong>{{ launch.launch_name }}</strong><br>
+                        <strong>{{ car.car_name }}</strong><br>
                         
-                        Price: {{ launch.fare }} per seat<br>
-                        Departure: {{ launch.departure_location }} → {{ launch.destination_location }}<br>
-                        Journey Date: {{ launch.journey_date }}<br>
-                        Available Seats: {{ launch.available_seats }}<br>
-                        <a href="{% url 'book_launches' launch.launch_id %}">Book Now</a>
+                        Price: {{ car.fare }} per seat<br>
+                        Departure: {{ car.departure_location }} → {{ car.destination_location }}<br>
+                        Journey Date: {{ car.journey_date }}<br>
+                        Available Seats: {{ car.available_seats }}<br>
+                        <a href="{% url 'book_car' car.car_id %}">Book Now</a>
                     </li>
                 {% endfor %}
             </ul>
-        {% elif launchs is not None %}
-            <p>No Launches found for your search criteria.</p>
+        {% elif cars is not None %}
+            <p>No cars found for your search criteria.</p>
         {% endif %}
     </section>
 

@@ -148,11 +148,10 @@
     <nav>
         <a href="{%url 'search_buses' %}">Buses</a>
         <a href="{%url 'search_trains' %}">Trains</a>
-        <a href="{%url 'search_launch' %}">Launches</a>
+        <a href="{%url 'search_launches' %}">Launches</a>
         <a href="{%url 'search_air' %}">Air</a>
-        <a href="{%url 'search_parks' %}">Parks</a>
-        <a href="{%url 'search_events' %}">Events</a>
-        <a href="{%url 'search_hotels' %}">Hotels</a>
+
+        <a href="{%url 'search_hotel' %}">Hotels</a>
         <a href="{%url 'search_cars' %}">Car Rental</a>
     </nav>
 
@@ -178,13 +177,13 @@
             <ul>
                 {% for train in trains %}
                     <li>
-                        <strong>{{ bus.bus_name }}</strong><br>
+                        <strong>{{ train.train_name }}</strong><br>
                         Description: {{ bus.bus_description }}<br>
-                        Price: {{ bus.fare }} per seat<br>
-                        Departure: {{ bus.departure_location }} → {{ bus.destination_location }}<br>
-                        Journey Date: {{ bus.journey_date }}<br>
-                        Available Seats: {{ bus.available_seats }}<br>
-                        <a href="{% url 'book_bus' bus.bus_id %}">Book Now</a>
+                        Price: {{ train.fare }} per seat<br>
+                        Departure: {{ train.departure_location }} → {{ train.destination_location }}<br>
+                        Journey Date: {{ train.journey_date }}<br>
+                        Available Seats: {{ train.available_seats }}<br>
+                        <a href="{% url 'book_train' train.train_id %}">Book Now</a>
                     </li>
                 {% endfor %}
             </ul>
