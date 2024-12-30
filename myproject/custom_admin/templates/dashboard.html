@@ -1,0 +1,25 @@
+<!-- custom_admin/templates/custom_admin/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Custom Admin Dashboard</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'manage_users' %}">Manage Users</a></li>
+            <li><a href="{% url 'manage_buses' %}">Manage Buses</a></li>
+            <li><a href="{% url 'manage_bookings' %}">Manage Bookings</a></li>
+        </ul>
+    </nav>
+    <footer>
+        <p>Custom Admin Panel</p>
+    </footer>
+</body>
+</html>

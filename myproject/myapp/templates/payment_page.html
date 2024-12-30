@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Page</title>
+</head>
+<body>
+    <h1>Payment for Booking</h1>
+    <p>Passenger Name: {{ BusBooking.passenger_name }}</p>
+    <p>Phone: {{ BusBooking.passenger_phone }}</p>
+    <p>Selected Seats: {{ BusBooking.selected_seats }}</p>
+    <p>Total Price: {{ BusBooking.total_price }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm Payment</button>
+    </form>
+</body>
+</html>

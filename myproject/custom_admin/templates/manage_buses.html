@@ -1,0 +1,44 @@
+<!-- custom_admin/templates/custom_admin/manage_buses.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Buses</title>
+    <link rel="stylesheet" href="{% static 'css/admin_styles.css' %}">
+</head>
+<body>
+    <h1>Manage Buses</h1>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Bus ID</th>
+                <th>Bus Name</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Fare</th>
+                <th>Total Seats</th>
+                <th>Available Seats</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bus in buses %}
+            <tr>
+                <td>{{ bus.bus_id }}</td>
+                <td>{{ bus.bus_name }}</td>
+                <td>{{ bus.departure_location }}</td>
+                <td>{{ bus.destination_location }}</td>
+                <td>{{ bus.fare }}</td>
+                <td>{{ bus.total_seats }}</td>
+                <td>{{ bus.available_seats }}</td>
+                <td>
+                    <a href="#">Edit</a> | <a href="#">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

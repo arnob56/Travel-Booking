@@ -36,14 +36,19 @@ class Bus(models.Model):
     
 
 class BusBooking(models.Model):
-    bus_name = models.ForeignKey(Bus, on_delete=models.CASCADE)
     passenger_name = models.CharField(max_length=100)
     passenger_phone = models.CharField(max_length=15)
     selected_seats = models.TextField()  # Store selected seats as a string
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    total_price = models.IntegerField()
+    payment_status = models.CharField(
+        max_length=10,
+        choices=[('Pending', 'Pending'), ('Paid', 'Paid')],
+        default='Pending'
+    )  # New field for payment status
 
     def __str__(self):
-        return(self.passenger_name)
+        return f" Name: {self.passenger_name}, Price: {self.total_price}, Seats: {self.selected_seats}, Payment: {self.payment_status}"
+
 
 class TripHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  

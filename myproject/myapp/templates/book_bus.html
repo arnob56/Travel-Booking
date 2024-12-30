@@ -52,7 +52,7 @@
             background-color: #d6d6d6;
             cursor: not-allowed;
         }
-        .seat:hover:not(.unavailable) {
+        .seat:hover:not(.unavailable):not(.selected) {
             background-color: #66bb6a;
             color: white;
         }
@@ -97,24 +97,53 @@
             text-decoration: none;
         }
     </style>
-    <script>
-        function toggleSeatSelection(seat) {
-            if (seat.classList.contains('unavailable')) {
-                alert(`Seat ${seat.dataset.seat} is unavailable!`);
-                return;
-            }
-
-            seat.classList.toggle('selected');
-            updateSelectedSeats();
+<script>
+    function toggleSeatSelection(seat) {
+        // If the seat is unavailable or already selected, prevent toggling
+        if (seat.classList.contains('unavailable') || seat.classList.contains('selected')) {
+            alert(`Seat ${seat.dataset.seat} is either unavailable or already selected!`);
+            return;
         }
 
-        function updateSelectedSeats() {
-            const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'))
-                .map(seat => seat.dataset.seat);
-            document.getElementById('selectedSeatsInput').value = selectedSeats.join(', ');
-            console.log("Selected Seats: " + selectedSeats.join(', '));
+        // Mark the seat as selected
+        seat.classList.add('selected');
+        updateSelectedSeats();
+    }
+
+    function updateSelectedSeats() {
+        // Collect all selected seats
+        const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'))
+            .map(seat => seat.dataset.seat);
+
+        // Update the hidden input field with selected seat data
+        document.getElementById('selectedSeatsInput').value = selectedSeats.join(', ');
+        console.log("Selected Seats: " + selectedSeats.join(', '));
+    }
+
+    function validateSelection() {
+        const selectedSeats = document.getElementById('selectedSeatsInput').value;
+        if (!selectedSeats) {
+            alert("Please select at least one seat before booking.");
+            return false;
         }
-    </script>
+        return true;
+    }
+
+    function disableSelectedSeats() {
+        const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'));
+        selectedSeats.forEach(seat => {
+            seat.classList.add('unavailable'); // Mark as unavailable
+            seat.onclick = null; // Disable click event
+        });
+    }
+
+    // Attach the disableSelectedSeats function to the form submission
+    document.querySelector('form').addEventListener('submit', function(event) {
+        if (validateSelection()) {
+            disableSelectedSeats(); // Disable seats after confirmation
+        }
+    });
+</script>
 </head>
 <body>
     <header>Book Your Bus</header>
@@ -128,7 +157,7 @@
     <div class="seat-container">
         {% for seat in seats %}
             <div 
-                class="seat {% if seat not in bus.booked_seats %}unavailable{% endif %}" 
+                class="seat {% if seat in bus.booked_seats %}unavailable{% endif %}" 
                 data-seat="{{ seat }}" 
                 onclick="toggleSeatSelection(this)">
                 {{ seat }}
@@ -137,12 +166,12 @@
     </div>
 
     <div class="form-container">
-        <form method="POST">
+        <form method="POST" onsubmit="return validateSelection()">
             {% csrf_token %}
             <input type="text" name="passenger_name" placeholder="Passenger Name" required>
             <input type="text" name="passenger_phone" placeholder="Passenger Phone" required>
-            <input type="hidden" id="selectedSeatsInput" name="selected_seats" required> #Check Javascripts
-            <button type="submit">Confirm Booking</button>
+            <input type="hidden" id="selectedSeatsInput" name="selected_seats" required>
+            <button type="submit">Pay Now </a></button>
         </form>
     </div>
 

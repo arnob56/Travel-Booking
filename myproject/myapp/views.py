@@ -141,7 +141,7 @@ def search_air(request):
 
 
  # Ensures only logged-in users can book
-@login_required
+
 def book_bus(request, bus_id):
     bus = get_object_or_404(Bus, bus_id=bus_id)
     
@@ -182,15 +182,16 @@ def book_bus(request, bus_id):
         
         # Calculate total price
         total_price = len(seat_list) * bus.fare
-        total_price=total_price,
+        #total_price=total_price,
         
         # Create a new booking and associate it with the logged-in user
         booking = BusBooking(
-            bus=bus,
+            
             passenger_name=passenger_name,
             passenger_phone=passenger_phone,
             selected_seats=selected_seats,
-            user=request.user,
+            total_price=total_price,
+            
         )
         
         # Update available seats and save booking
@@ -199,7 +200,7 @@ def book_bus(request, bus_id):
         booking.save()
         
         # Redirect to the payment page
-        return redirect('payment_page', booking_id=booking.bus_book_id)
+        #return redirect('payment_page', booking_id=booking.bus_book_id)
     
     # Render the booking form with seats data
     return render(request, 'book_bus.html', {'bus': bus, 'seats': seats})
@@ -357,3 +358,21 @@ def book_air(request, plane_id):
 # def payment_success(request, booking_id):
 #     booking = get_object_or_404(Booking, id=booking_id)
 #     return render(request, 'payment_success.html', {'booking': booking})
+
+
+
+def payment_page(request):
+    booking = get_object_or_404(BusBooking)
+    return render(request, 'payment_page.html', {'booking': booking}) 
+
+def ticket_print(request):
+
+    booking = get_object_or_404(BusBooking)
+
+    if booking.payment_status != 'Paid':
+        messages.error(request, "Payment is not completed yet.")
+        return redirect('payment_page')
+
+    return render(request, 'ticket_print.html', {'booking': booking})
+
+

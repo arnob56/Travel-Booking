@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ticket Confirmation</title>
+</head>
+<body>
+    <h1>Your Ticket</h1>
+    <p><strong>Passenger Name:</strong> {{ booking.passenger_name }}</p>
+    <p><strong>Phone:</strong> {{ booking.passenger_phone }}</p>
+    <p><strong>Selected Seats:</strong> {{ booking.selected_seats }}</p>
+    <p><strong>Total Price:</strong> {{ booking.total_price }}</p>
+    <p><strong>Payment Status:</strong> {{ booking.payment_status }}</p>
+
+    <p>Thank you for booking with us. Have a safe journey!</p>
+
+    <button onclick="window.print()">Print Ticket</button>
+</body>
+</html>
