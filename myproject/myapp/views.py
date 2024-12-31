@@ -476,7 +476,7 @@ def book_hotel(request, hotel_id):
         seat_list = selected_seats.split(',')
         
         # Check if enough seats are available
-        if len(seat_list) > hotel.available_seats:
+        if len(seat_list) > hotel.available_rooms:
             messages.error(request, "Not enough available seats.")
             return redirect('book_bus', hotel_id=hotel_id)
         
@@ -495,7 +495,7 @@ def book_hotel(request, hotel_id):
         )
         
         # Update available seats and save booking
-        hotel.available_seats -= len(seat_list)
+        hotel.available_rooms -= len(seat_list)
         hotel.save()
         booking.save()
         

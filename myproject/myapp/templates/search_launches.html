@@ -183,7 +183,7 @@
                         Departure: {{ launch.departure_location }} → {{ launch.destination_location }}<br>
                         Journey Date: {{ launch.journey_date }}<br>
                         Available Seats: {{ launch.available_seats }}<br>
-                        <a href="{% url 'book_launches' launch.launch_id %}">Book Now</a>
+                        <a href="{% url 'book_launch' launch.launch_id %}">Book Now</a>
                     </li>
                 {% endfor %}
             </ul>

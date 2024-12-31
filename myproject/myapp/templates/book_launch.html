@@ -3,25 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Launch</title>
+    <title>Book Launch - Advanced UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+        }
+        header {
+            background-color: #3b5998;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .seat-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 15px;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .seat {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background-color: #e2e2e2;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .seat.selected {
+            background-color: #4CAF50;
+            color: white;
+            transform: scale(1.1);
+        }
+        .seat.unavailable {
+            background-color: #d6d6d6;
+            cursor: not-allowed;
+        }
+        .seat:hover:not(.unavailable):not(.selected) {
+            background-color: #66bb6a;
+            color: white;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 15px;
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container button:hover {
+            background-color: #4CAF50;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .back-link a {
+            color: #3b5998;
+            text-decoration: none;
+        }
+    </style>
+<script>
+    function toggleSeatSelection(seat) {
+        // If the seat is unavailable or already selected, prevent toggling
+        if (seat.classList.contains('unavailable') || seat.classList.contains('selected')) {
+            alert(`Seat ${seat.dataset.seat} is either unavailable or already selected!`);
+            return;
+        }
+
+        // Mark the seat as selected
+        seat.classList.add('selected');
+        updateSelectedSeats();
+    }
+
+    function updateSelectedSeats() {
+        // Collect all selected seats
+        const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'))
+            .map(seat => seat.dataset.seat);
+
+        // Update the hidden input field with selected seat data
+        document.getElementById('selectedSeatsInput').value = selectedSeats.join(', ');
+        console.log("Selected Seats: " + selectedSeats.join(', '));
+    }
+
+    function validateSelection() {
+        const selectedSeats = document.getElementById('selectedSeatsInput').value;
+        if (!selectedSeats) {
+            alert("Please select at least one seat before booking.");
+            return false;
+        }
+        return true;
+    }
+
+    function disableSelectedSeats() {
+        const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'));
+        selectedSeats.forEach(seat => {
+            seat.classList.add('unavailable'); // Mark as unavailable
+            seat.onclick = null; // Disable click event
+        });
+    }
+
+    // Attach the disableSelectedSeats function to the form submission
+    document.querySelector('form').addEventListener('submit', function(event) {
+        if (validateSelection()) {
+            disableSelectedSeats(); // Disable seats after confirmation
+        }
+    });
+</script>
 </head>
 <body>
-    <h1>Book Your Launch</h1>
-    <h2>{{ travel_service.name }}</h2>
-    <p><strong>From:</strong> {{ travel_service.from_location }}</p>
-    <p><strong>To:</strong> {{ travel_service.to_location }}</p>
-    <p><strong>Date:</strong> {{ travel_service.journey_date }}</p>
-    <p><strong>Price per seat:</strong> {{ travel_service.price }}</p>
-    <p><strong>Available Seats:</strong> {{ travel_service.available_seats }}</p>
+    <header>Book Your Bus</header>
 
-    <form method="post">
-        {% csrf_token %}
-        <label for="seats_booked">Number of Seats:</label>
-        <input type="number" id="seats_booked" name="seats_booked" min="1" max="{{ travel_service.available_seats }}" required>
-        <br>
-        <button type="submit">Book Now</button>
-    </form>
+    <h2>{{ launch.launch_name }}</h2>
+    <p><strong>From:</strong> {{ launch.departure_location }} <strong>To:</strong> {{ launch.destination_location }}</p>
+    <p><strong>Date:</strong> {{ launch.journey_date }}</p>
+    <h2>Price per Seat: {{ total_price}}</h2>
+    <p><strong>Available Seats:</strong> {{ launch.available_seats }}</p>
 
-    <a href="{% url 'home' %}">Back to Search</a>
+    <div class="seat-container">
+        {% for seat in seats %}
+            <div 
+                class="seat {% if seat in bus.booked_seats %}unavailable{% endif %}" 
+                data-seat="{{ seat }}" 
+                onclick="toggleSeatSelection(this)">
+                {{ seat }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="form-container">
+        <form method="POST" onsubmit="return validateSelection()">
+            {% csrf_token %}
+            <input type="text" name="passenger_name" placeholder="Passenger Name" required>
+            <input type="text" name="passenger_phone" placeholder="Passenger Phone" required>
+            <input type="hidden" id="selectedSeatsInput" name="selected_seats" required>
+            <button type="submit">Pay Now </a></button>
+        </form>
+    </div>
+
+    <div class="back-link">
+        <a href="{% url 'search_launches' %}">Back to Search</a>
+    </div>
 </body>
 </html>
