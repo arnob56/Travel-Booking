@@ -540,3 +540,32 @@ def ticket_print(request):
     return render(request, 'ticket_print.html', {'booking': booking})
 
 
+
+from .models import Park, Ticket
+from .forms import TicketForm
+
+def home(request):
+    parks = Park.objects.all()
+    return render(request, 'home.html', {'parks': parks})
+
+@login_required
+def book_ticket(request, park_id):
+    park = get_object_or_404(Park, id=park_id)
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.park = park
+            ticket.save()
+            return redirect('ticket_detail', ticket_id=ticket.id)
+    else:
+        form = TicketForm()
+    return render(request, 'book_ticket.html', {'form': form, 'park': park})
+
+@login_required
+def ticket_detail(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    return render(request, 'ticket_detail.html', {'ticket': ticket})
+
+

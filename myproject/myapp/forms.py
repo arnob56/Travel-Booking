@@ -26,3 +26,13 @@ class SearchForm(forms.Form):
     departure_location = forms.CharField(max_length=255, label='Departure Location')
     destination_location = forms.CharField(max_length=255, label='Destination Location')
     journey_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='Journey Date')
+
+
+from .models import Ticket
+
+class TicketForm(forms.ModelForm):
+    visit_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = Ticket
+        fields = ['visit_date', 'num_tickets']

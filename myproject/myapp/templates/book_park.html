@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park Book</title>
+</head>
+<body>
+    <h1>Welcome to the Park Ticket Booking </h1>
+<ul>
+    {% for park in parks %}
+    <li>
+        <h2>{{ park.name }}</h2>
+        <p>{{ park.description }}</p>
+        <p>Entry Fee: {{ park.entry_fee }}</p>
+        <a href="{% url 'book_ticket' park.id %}">Book Tickets</a>
+    </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

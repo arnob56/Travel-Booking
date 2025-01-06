@@ -217,3 +217,23 @@ class Events(models.Model):
 
     def __str__(self):
         return f" Hotel ID :{self.event_id} | Hotel Name : {self.event_name} | Location : {self.event_location} | | Price :{self.price}"
+
+
+class Park(models.Model):
+    name = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+    entry_fee = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class Ticket(models.Model):
+    park = models.ForeignKey(Park, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    booking_date = models.DateField(auto_now_add=True)
+    visit_date = models.DateField()
+    num_tickets = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.user.username} - {self.park.name}"

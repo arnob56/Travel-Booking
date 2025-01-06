@@ -21,9 +21,14 @@ urlpatterns = [
     path('book_air/<int:plane_id>/', views.book_air, name='book_air'),
     path('search_cars/', views.search_cars,name='search_cars'),
     path('book_car/<int:car_id>/', views.book_car, name='book_car'),
+    path('book/<int:park_id>/', views.book_ticket, name='book_ticket'),
+    path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket_detail'),
+
     #path('payment/', views.payment_page,name='payment'),
     path('payment/', views.payment_page, name='payment_page'),
     path('ticket/<int:booking_id>/', views.ticket_print, name='ticket_print'),
+    
+
 
 ]
    
