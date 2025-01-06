@@ -21,10 +21,10 @@ urlpatterns = [
     path('book_air/<int:plane_id>/', views.book_air, name='book_air'),
     path('search_cars/', views.search_cars,name='search_cars'),
     path('book_car/<int:car_id>/', views.book_car, name='book_car'),
-    #path('book/<int:park_id>/', views.book_ticket, name='book_ticket'),
-    #path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket_detail'),
-    #path('book/<int:concert_id>/', views.book_ticket, name='book_ticket'),
-    #path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket_detail'),
+    # path('book/<int:park_id>/', views.book_ticket, name='book_ticket'),
+    # path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket_detail'),
+    # path('book/<int:concert_id>/', views.book_ticket, name='book_ticket'),
+    # path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket_detail'),
 
 
     #path('payment/', views.payment_page,name='payment'),
@@ -40,6 +40,55 @@ urlpatterns = [
     path('ad_add_plane/', views.ad_add_plane, name='ad_add_plane'),
     path('ad_edit_plane/<int:plane_id>/', views.ad_edit_plane, name='ad_edit_plane'),
     path('ad_delete_plane/<int:plane_id>/', views.ad_delete_plane, name='ad_delete_plane'),
+
+
+
+
+    path('adminn_hotel/', views.adminn_hotel, name='adminn_hotel'),
+    path('ad_add_hotel/', views.ad_add_hotel, name='ad_add_hotel'),
+    path('ad_edit_hotel/<int:hotel_id>/', views.ad_edit_hotel, name='ad_edit_hotel'),
+    path('ad_delete_hotel/<int:hotel_id>/', views.ad_delete_hotel, name='ad_delete_hotel'),
+
+    path('adminn_car/', views.adminn_car, name='adminn_car'),
+    path('ad_add_car/', views.ad_add_car, name='ad_add_car'),
+    path('ad_edit_car/<int:car_id>/', views.ad_edit_car, name='ad_edit_car'),
+    path('ad_delete_car/<int:car_id>/', views.ad_delete_car, name='ad_delete_car'),
+
+
+    #Park
+
+    path('adminn_car/', views.adminn_car, name='adminn_car'),
+    path('ad_add_car/', views.ad_add_car, name='ad_add_car'),
+    path('ad_edit_car/<int:car_id>/', views.ad_edit_car, name='ad_edit_car'),
+    path('ad_delete_car/<int:car_id>/', views.ad_delete_car, name='ad_delete_car'),
+
+
+    #Events
+    path('adminn_car/', views.adminn_car, name='adminn_car'),
+    path('ad_add_car/', views.ad_add_car, name='ad_add_car'),
+    path('ad_edit_car/<int:car_id>/', views.ad_edit_car, name='ad_edit_car'),
+    path('ad_delete_car/<int:car_id>/', views.ad_delete_car, name='ad_delete_car'),
+
+
+
+    #Train
+
+
+    path('adminn_car/', views.adminn_car, name='adminn_car'),
+    path('ad_add_car/', views.ad_add_car, name='ad_add_car'),
+    path('ad_edit_car/<int:car_id>/', views.ad_edit_car, name='ad_edit_car'),
+    path('ad_delete_car/<int:car_id>/', views.ad_delete_car, name='ad_delete_car'),
+
+
+
+    #Launch
+
+
+    path('adminn_car/', views.adminn_car, name='adminn_car'),
+    path('ad_add_car/', views.ad_add_car, name='ad_add_car'),
+    path('ad_edit_car/<int:car_id>/', views.ad_edit_car, name='ad_edit_car'),
+    path('ad_delete_car/<int:car_id>/', views.ad_delete_car, name='ad_delete_car'),
+
 ]
    
 

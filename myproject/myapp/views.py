@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Bus,User,BusBooking,Air,AirBooking,Train,Launch,Car,Hotel,Events
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm, UserLoginForm , BusForm, PlaneForm
+from .forms import UserRegisterForm, UserLoginForm , BusForm, PlaneForm, HotelForm, CarForm #TrainForm, #LaunchForm, #ParkForm, #EventForm
 from .models import User
 # Home View
 
@@ -609,5 +609,237 @@ def ad_delete_plane(request, plane_id):
     air.delete()
     messages.success(request, "Plane deleted successfully!")
     return redirect('adminn_plane')
+
+
+def adminn_hotel(request):
+    hotels = Hotel.objects.all()
+    return render(request, 'adminn_hotel.html', {'hotels': hotels})
+
+def ad_add_hotel(request):
+    if request.method == 'POST':
+        form = HotelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Hotel added successfully!")
+            return redirect('adminn_hotel')
+    else:
+        form = HotelForm()
+    return render(request, 'ad_add_hotel.html', {'form': form})
+
+
+def ad_edit_hotel(request, hotel_id):
+    hotel = get_object_or_404(Hotel, hotel_id=hotel_id)
+    if request.method == 'POST':
+        form = HotelForm(request.POST, instance=hotel)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Hotel updated successfully!")
+            return redirect('adminn_hotel')
+    else:
+        form = HotelForm(instance=hotel)
+    return render(request, 'ad_edit_hotel.html', {'form': form})
+
+
+def ad_delete_hotel(request, hotel_id):
+    hotel = get_object_or_404(Hotel, hotel_id=hotel_id)
+    hotel.delete()
+    messages.success(request, "Hotel deleted successfully!")
+    return redirect('adminn_hotel')
+
+def adminn_car(request):
+    cars = Car.objects.all()
+    return render(request, 'adminn_car.html', {'cars': cars})
+
+def ad_add_car(request):
+    if request.method == 'POST':
+        form = CarForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car added successfully!")
+            return redirect('adminn_car')
+    else:
+        form = CarForm()
+    return render(request, 'ad_add_car.html', {'form': form})
+
+
+def ad_edit_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    if request.method == 'POST':
+        form = CarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car updated successfully!")
+            return redirect('adminn_Car')
+    else:
+        form = CarForm(instance=car)
+    return render(request, 'ad_edit_car.html', {'form': form})
+
+
+def ad_delete_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    car.delete()
+    messages.success(request, "Car deleted successfully!")
+    return redirect('adminn_car')
+
+
+
+#Train
+
+
+def adminn_car(request):
+    cars = Car.objects.all()
+    return render(request, 'adminn_car.html', {'cars': cars})
+
+def ad_add_car(request):
+    if request.method == 'POST':
+        form = CarForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car added successfully!")
+            return redirect('adminn_car')
+    else:
+        form = CarForm()
+    return render(request, 'ad_add_car.html', {'form': form})
+
+
+def ad_edit_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    if request.method == 'POST':
+        form = CarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car updated successfully!")
+            return redirect('adminn_Car')
+    else:
+        form = CarForm(instance=car)
+    return render(request, 'ad_edit_car.html', {'form': form})
+
+
+def ad_delete_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    car.delete()
+    messages.success(request, "Car deleted successfully!")
+    return redirect('adminn_car')
+
+
+
+#Launch
+def adminn_car(request):
+    cars = Car.objects.all()
+    return render(request, 'adminn_car.html', {'cars': cars})
+
+def ad_add_car(request):
+    if request.method == 'POST':
+        form = CarForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car added successfully!")
+            return redirect('adminn_car')
+    else:
+        form = CarForm()
+    return render(request, 'ad_add_car.html', {'form': form})
+
+
+def ad_edit_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    if request.method == 'POST':
+        form = CarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car updated successfully!")
+            return redirect('adminn_Car')
+    else:
+        form = CarForm(instance=car)
+    return render(request, 'ad_edit_car.html', {'form': form})
+
+
+def ad_delete_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    car.delete()
+    messages.success(request, "Car deleted successfully!")
+    return redirect('adminn_car')
+
+
+
+#Park 
+
+def adminn_car(request):
+    cars = Car.objects.all()
+    return render(request, 'adminn_car.html', {'cars': cars})
+
+def ad_add_car(request):
+    if request.method == 'POST':
+        form = CarForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car added successfully!")
+            return redirect('adminn_car')
+    else:
+        form = CarForm()
+    return render(request, 'ad_add_car.html', {'form': form})
+
+
+def ad_edit_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    if request.method == 'POST':
+        form = CarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car updated successfully!")
+            return redirect('adminn_Car')
+    else:
+        form = CarForm(instance=car)
+    return render(request, 'ad_edit_car.html', {'form': form})
+
+
+def ad_delete_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    car.delete()
+    messages.success(request, "Car deleted successfully!")
+    return redirect('adminn_car')
+
+
+
+
+#Event
+
+
+def adminn_car(request):
+    cars = Car.objects.all()
+    return render(request, 'adminn_car.html', {'cars': cars})
+
+def ad_add_car(request):
+    if request.method == 'POST':
+        form = CarForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car added successfully!")
+            return redirect('adminn_car')
+    else:
+        form = CarForm()
+    return render(request, 'ad_add_car.html', {'form': form})
+
+
+def ad_edit_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    if request.method == 'POST':
+        form = CarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Car updated successfully!")
+            return redirect('adminn_Car')
+    else:
+        form = CarForm(instance=car)
+    return render(request, 'ad_edit_car.html', {'form': form})
+
+
+def ad_delete_car(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    car.delete()
+    messages.success(request, "Car deleted successfully!")
+    return redirect('adminn_car')
+
+
+
 
 

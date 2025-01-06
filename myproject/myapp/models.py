@@ -190,19 +190,18 @@ class Car(models.Model):
     f"To Location: {self.destination_location} || "
     f"Price: {self.fare}"
 )
-# class Park(models.Model):
-#     park_id=models.CharField(max_length=10, primary_key=True)
-#     park_name=models.CharField(max_length=255)
-#     park_location=models.CharField(max_length=255)
+class Park(models.Model):
+    park_id=models.CharField(max_length=10, primary_key=True)
+    park_name=models.CharField(max_length=255)
+    park_location=models.CharField(max_length=255)
 
-#     date=models.DateField()
-#     #bus_type=models.CharField(max_length=10, choices=[('AC', 'AC'), ('Non AC', 'Non AC')])
-#     total_rooms=models.IntegerField()
-#     available_rooms=models.IntegerField()
-#     fare=models.IntegerField()
+    date=models.DateField()
+    total_rooms=models.IntegerField()
+    available_rooms=models.IntegerField()
+    fare=models.IntegerField()
 
-#     def __str__(self):
-#         return f" Park Name :{self.park_name} Park Location: {self.park_location}"
+    def __str__(self):
+        return f" Park Name :{self.park_name} Park Location: {self.park_location}"
     
 class Events(models.Model):
     event_id=models.CharField(max_length=10, primary_key=True)

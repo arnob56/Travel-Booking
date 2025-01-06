@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Admin Dashboard</h1>
+        <div class="text-end mb-3">
+            <a href="{% url 'ad_add_hotel' %}" class="btn btn-success">Add Bus</a>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th> hotel id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>From</th>
+                    <th>To</th>
+                    
+                    <th>Total Time</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Journey Date</th>
+                    <th>Total Seat</th>
+                    <th>Available_seats</th>
+                    <th>Fare</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+                {% if hotels %}
+                    {% for hotel in hotels %}
+                        <tr>
+                            <td> {{hotel.hotel_id}}</td>
+                            <td>{{ hotel.hotel_name }}</td>
+                            
+                            
+                            <td>{{ hotel.hotel_location }}</td>
+                        
+                            
+                           
+                            
+                            <td>{{ hotel.journey_date }}</td>
+                            
+                            <td>{{ hotel.p_total_rooms }}</td>
+                            <td>{{ hotel.p_available_rooms }}</td>
+                            <td>{{ hotel.price }}</td>
+                            
+
+                            </td>
+                            
+                            <a href="{% url 'ad_edit_hotel' hotel.hotel_id %}" class="btn btn-success">Edit</a>
+                            <a href="{% url 'ad_delete_hotel' hotel.hotel_id %}" class="btn btn-danger">Delete</a>    
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">No hotels found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

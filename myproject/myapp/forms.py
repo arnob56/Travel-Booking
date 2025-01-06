@@ -1,7 +1,7 @@
 # forms.p
 
 from django import forms
-from .models import User,Bus,Air
+from .models import User,Bus,Air,Hotel,Car
 from django.contrib.auth.forms import UserCreationForm
 
 class UserRegisterForm(UserCreationForm):
@@ -36,3 +36,39 @@ class PlaneForm(forms.ModelForm):
     class Meta:
         model = Air
         fields = ['plane_id','plane_name', 'departure_airport', 'destination_airport','total_time','start_time','arival_time','journey_date','p_total_seats','p_available_seats','p_fare']
+
+class HotelForm(forms.ModelForm):
+    class Meta:
+        model = Hotel
+        fields = ['hotel_id','hotel_name','hotel_location','journey_date','total_rooms','available_rooms','price']      
+
+class CarForm(forms.ModelForm):
+    class Meta:
+        model = Car
+        fields = ['car_id', 'car_serial' , 'car_name', 'departure_location', 'destination_location','time','journey_date','fare']
+
+class BusForm(forms.ModelForm):   #CHANGE TO PARK
+    class Meta:
+        model = Bus
+        fields = ['bus_id','bus_name', 'bus_description', 'departure_location', 'destination_location','distance','total_time','start_time','arival_time','journey_date','bus_type','total_seats','available_seats','fare']
+
+
+class BusForm(forms.ModelForm):  #CHANGE TO EVENT
+    class Meta:
+        model = Bus
+        fields = ['bus_id','bus_name', 'bus_description', 'departure_location', 'destination_location','distance','total_time','start_time','arival_time','journey_date','bus_type','total_seats','available_seats','fare']
+
+
+
+class BusForm(forms.ModelForm):  #CHANGE IN TRAIN ACCORDINGLY
+    class Meta:
+        model = Bus
+        fields = ['bus_id','bus_name', 'bus_description', 'departure_location', 'destination_location','distance','total_time','start_time','arival_time','journey_date','bus_type','total_seats','available_seats','fare']     
+
+
+
+class BusForm(forms.ModelForm): #Change to Launch Accordingly
+    class Meta:
+        model = Bus
+        fields = ['bus_id','bus_name', 'bus_description', 'departure_location', 'destination_location','distance','total_time','start_time','arival_time','journey_date','bus_type','total_seats','available_seats','fare']
+       
