@@ -747,7 +747,7 @@ def ad_edit_launch(request, launch_id):
         if form.is_valid():
             form.save()
             messages.success(request, "Launch has been updated successfully!")
-            return redirect('adminn_Launch')
+            return redirect('adminn_launch')
     else:
         form = LaunchForm(instance=launch)
     return render(request, 'ad_edit_launch.html', {'form': form})
