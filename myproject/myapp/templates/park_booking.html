@@ -1,0 +1,26 @@
+<!-- templates/park_booking/park_booking.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Park Booking</h1>
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="park">Select Park:</label>
+        <select name="park" id="park">
+            {% for park in parks %}
+                <option value="{{ park.park_id }}">{{ park.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="num_tickets">Number of Tickets:</label>
+        <input type="number" name="num_tickets" id="num_tickets" min="1" required>
+    </div>
+    <div>
+        <label for="visit_date">Visit Date:</label>
+        <input type="date" name="visit_date" id="visit_date" required>
+    </div>
+    <button type="submit">Book Park Tickets</button>
+</form>
+{% endblock %}

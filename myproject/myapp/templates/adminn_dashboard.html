@@ -35,25 +35,26 @@
             </thead>
             <tbody>
                 {% if buses %}
-                    {% for bus in buses %}
+                    {% for buss in buses %}
                         <tr>
-                            <td> {{bus.bus_id}}</td>
-                            <td>{{ bus.bus_name }}</td>
-                            <td>{{ bus.bus_description }}</td>
-                            <td>{{ bus.departure_location }}</td>
-                            <td>{{ bus.destination_location }}</td>
-                            <td> {{ bus.distance }} </td>
-                            <td>{{ bus.total_time }}</td>
-                            <td>{{ bus.start_time }}</td>
-                            <td>{{ bus.arrival_time }}</td>
-                            <td>{{ bus.journey_date }}</td>
-                            <td>{{ bus.bus_type }}</td>
-                            <td>{{ bus.total_seats }}</td>
-                            <td>{{ bus.available_seats }}</td>
-                            <td>{{ bus.fare }}</td>
+                            <td> {{buss.bus_id}}</td>
+                            <td>{{ buss.bus_name }}</td>
+                            <td>{{ buss.bus_description }}</td>
+                            <td>{{ buss.departure_location }}</td>
+                            <td>{{ buss.destination_location }}</td>
+                            <td> {{ buss.distance }} </td>
+                            <td>{{ buss.total_time }}</td>
+                            <td>{{ buss.start_time }}</td>
+                            <td>{{ buss.arrival_time }}</td>
+                            <td>{{ buss.journey_date }}</td>
+                            <td>{{ buss.bus_type }}</td>
+                            <td>{{ buss.total_seats }}</td>
+                            <td>{{ buss.available_seats }}</td>
+                            <td>{{ buss.fare }}</td>
                             
 
                             </td>
+                            
                             
                             
                         </tr>

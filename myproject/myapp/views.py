@@ -557,9 +557,9 @@ def ad_add_bus(request):
 
 
 def ad_edit_bus(request, bus_id):
-    bus = get_object_or_404(Bus, bus_id=bus_id)
+    buss = get_object_or_404(Bus, bus_id=bus_id)
     if request.method == 'POST':
-        form = BusForm(request.POST, instance=bus)
+        form = BusForm(request.POST, instance=buss)
         if form.is_valid():
             form.save()
             messages.success(request, "Bus updated successfully!")
@@ -569,8 +569,8 @@ def ad_edit_bus(request, bus_id):
     return render(request, 'ad_edit_bus.html', {'form': form})
 
 def ad_delete_bus(request, bus_id):
-    bus = get_object_or_404(Bus, bus_id=bus_id)
-    bus.delete()
+    buss = get_object_or_404(Bus, bus_id=bus_id)
+    buss.delete()
     messages.success(request, "Bus deleted successfully!")
     return redirect('adminn_dashboard')
 
@@ -592,17 +592,22 @@ def ad_add_plane(request):
 
 
 def ad_edit_plane(request, plane_id):
-    plane = get_object_or_404(Air, plane_id=plane_id)
+    air = get_object_or_404(Air, plane_id=plane_id)
     if request.method == 'POST':
-        form = PlaneForm(request.POST, instance=plane)
+        form = PlaneForm(request.POST, instance=air)
         if form.is_valid():
             form.save()
             messages.success(request, "Plane updated successfully!")
             return redirect('adminn_plane')
     else:
-        form = PlaneForm(instance=plane)
+        form = PlaneForm(instance=air)
     return render(request, 'ad_edit_plane.html', {'form': form})
 
 
+def ad_delete_plane(request, plane_id):
+    air = get_object_or_404(Air, plane_id=plane_id)
+    air.delete()
+    messages.success(request, "Plane deleted successfully!")
+    return redirect('adminn_plane')
 
 

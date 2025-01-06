@@ -54,7 +54,8 @@
 
                             </td>
                             
-                            
+                            <a href="{% url 'ad_edit_plane' air.plane_id %}" class="btn btn-success">Edit</a>
+                            <a href="{% url 'ad_delete_plane' air.plane_id %}" class="btn btn-danger">Delete</a>    
                         </tr>
                     {% endfor %}
                 {% else %}
