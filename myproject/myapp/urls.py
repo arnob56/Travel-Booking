@@ -64,13 +64,13 @@ urlpatterns = [
 
 
     # #Events
-    # path('adminn_car/', views.adminn_car, name='adminn_car'),
+    # path('adminn_Events/', views.adminn_car, name='adminn_car'),
     # path('ad_add_car/', views.ad_add_car, name='ad_add_car'),
     # path('ad_edit_car/<int:car_id>/', views.ad_edit_car, name='ad_edit_car'),
     # path('ad_delete_car/<int:car_id>/', views.ad_delete_car, name='ad_delete_car'),
 
-
-
+    
+    
     #Train
 
 
@@ -88,6 +88,9 @@ urlpatterns = [
     path('ad_add_launch/', views.ad_add_launch, name='ad_add_launch'),
     path('ad_edit_launch/<int:launch_id>/', views.ad_edit_launch, name='ad_edit_launch'),
     path('ad_delete_launch/<int:launch_id>/', views.ad_delete_launch, name='ad_delete_launch'),
+
+
+
 
 ]
    

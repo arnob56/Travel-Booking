@@ -1,7 +1,7 @@
 # forms.p
 
 from django import forms
-from .models import User,Bus,Air,Hotel,Car, Train, Launch
+from .models import User,Bus,Air,Hotel,Car, Train, Launch,Park,Events
 from django.contrib.auth.forms import UserCreationForm
 
 class UserRegisterForm(UserCreationForm):
@@ -71,4 +71,16 @@ class LaunchForm(forms.ModelForm): #Change to Launch Accordingly
     class Meta:
         model = Launch
         fields = ['launch_id','launch_name',  'departure_location', 'destination_location','start_time','arival_time','journey_date','total_seats','available_seats','fare']     
-       
+class ParkForm(forms.ModelForm):   #CHANGEd
+    class Meta:
+        model = Park
+        fields = ['park_id','park_name', 'park_location','fare']
+
+    
+class EventsForm(forms.ModelForm):  #CHANGEd
+    class Meta:
+        model = Events
+        fields = ['event_id','event_name','event_location', 'event_type','event_date','total_seats','available_seats','price']
+
+
+           

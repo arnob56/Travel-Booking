@@ -196,8 +196,7 @@ class Park(models.Model):
     park_location=models.CharField(max_length=255)
 
     date=models.DateField()
-    total_rooms=models.IntegerField()
-    available_rooms=models.IntegerField()
+
     fare=models.IntegerField()
 
     def __str__(self):

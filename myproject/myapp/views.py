@@ -839,6 +839,36 @@ def ad_delete_launch(request, launch_id):
 #     messages.success(request, "Car deleted successfully!")
 #     return redirect('adminn_car')
 
+def ad_add_Events(request):
+    if request.method == 'POST':
+        form = EventsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "event added successfully!")
+            return redirect('adminn_dashboard')
+    else:
+        form = EventsForm()
+    return render(request, 'ad_add_event.html', {'form': form})
+
+
+def ad_edit_Events(request, event_id):
+    buss = get_object_or_404(Bus, event_id=event_id)
+    if request.method == 'POST':
+        form = EventsForm(request.POST, instance=Events)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "event updated successfully!")
+            return redirect('adminn_dashboard')
+    else:
+        form = EventsForm(instance=Events)
+    return render(request, 'ad_edit_event.html', {'form': form})
+
+def ad_delete_Events(request, Events_id):
+    buss = get_object_or_404(Bus, Events_id=Events_id)
+    buss.delete()
+    messages.success(request, "event deleted successfully!")
+    return redirect('adminn_dashboard')
+
 
 
 
