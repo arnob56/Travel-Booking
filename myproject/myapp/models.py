@@ -67,7 +67,7 @@ class TripHistory(models.Model):
 class Air(models.Model):
     plane_id=models.CharField(max_length=10, primary_key=True)
     plane_name=models.CharField(max_length=255)
-    plane_description=models.TextField()
+    #plane_description=models.TextField()
     departure_airport=models.CharField(max_length=255)
     destination_airport=models.CharField(max_length=255)
     total_time=models.FloatField()

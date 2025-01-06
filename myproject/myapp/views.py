@@ -59,17 +59,17 @@ def search_buses(request):
 
 
 def search_air(request):
-    planes = None
+    airs = None
     if request.GET:
         departure_airport = request.GET.get('departure_airport')
         destination_airport = request.GET.get('destination_airport')
         journey_date = request.GET.get('journey_date')
-        planes = Air.objects.filter(
+        airs = Air.objects.filter(
             departure_airport__icontains=departure_airport,
             destination_airport__icontains=destination_airport,
             journey_date=journey_date,
         )
-    return render(request, 'search_air.html', {'planes': planes}) 
+    return render(request, 'search_air.html', {'airs': airs}) 
 
     
 
@@ -576,8 +576,8 @@ def ad_delete_bus(request, bus_id):
 
 
 def adminn_plane(request):
-    planes = Air.objects.all()
-    return render(request, 'adminn_plane.html', {'planes': planes})
+    airs = Air.objects.all()
+    return render(request, 'adminn_plane.html', {'airs': airs})
 
 def ad_add_plane(request):
     if request.method == 'POST':

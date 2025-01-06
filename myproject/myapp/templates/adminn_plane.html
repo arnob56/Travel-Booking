@@ -33,23 +33,23 @@
                 </tr>
             </thead>
             <tbody>
-                {% if planes %}
-                    {% for plane in planes %}
+                {% if airs %}
+                    {% for air in airs %}
                         <tr>
-                            <td> {{plane.plane_id}}</td>
-                            <td>{{ plane.plane_name }}</td>
-                            <td>{{ plane.plane_description }}</td>
-                            <td>{{ plane.departure_airport }}</td>
-                            <td>{{ plane.destination_airport }}</td>
+                            <td> {{air.plane_id}}</td>
+                            <td>{{ air.plane_name }}</td>
+                            <td>{{ air.plane_description }}</td>
+                            <td>{{ air.departure_airport }}</td>
+                            <td>{{ air.destination_airport }}</td>
                         
-                            <td>{{ plane.total_time }}</td>
-                            <td>{{ bus.start_time }}</td>
-                            <td>{{ bus.arrival_time }}</td>
-                            <td>{{ bus.journey_date }}</td>
+                            <td>{{ air.total_time }}</td>
+                            <td>{{ air.start_time }}</td>
+                            <td>{{ air.arrival_time }}</td>
+                            <td>{{ air.journey_date }}</td>
                             
-                            <td>{{ plane.p_total_seats }}</td>
-                            <td>{{ plane.p_available_seats }}</td>
-                            <td>{{ plane.p_fare }}</td>
+                            <td>{{ air.p_total_seats }}</td>
+                            <td>{{ air.p_available_seats }}</td>
+                            <td>{{ air.p_fare }}</td>
                             
 
                             </td>
@@ -59,7 +59,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="5" class="text-center">No Planes found.</td>
+                        <td colspan="5" class="text-center">No airs found.</td>
                     </tr>
                 {% endif %}
             </tbody>

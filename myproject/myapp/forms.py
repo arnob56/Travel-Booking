@@ -35,4 +35,4 @@ class BusForm(forms.ModelForm):
 class PlaneForm(forms.ModelForm):
     class Meta:
         model = Air
-        fields = ['plane_id','plane_name', 'plane_description', 'departure_airport', 'destination_airport','total_time','start_time','arival_time','journey_date','p_total_seats','p_available_seats','p_fare']
+        fields = ['plane_id','plane_name', 'departure_airport', 'destination_airport','total_time','start_time','arival_time','journey_date','p_total_seats','p_available_seats','p_fare']
