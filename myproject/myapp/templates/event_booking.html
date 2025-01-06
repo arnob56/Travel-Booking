@@ -1,0 +1,22 @@
+<!-- templates/event_booking/event_booking.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Event Booking</h1>
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="event">Select Event:</label>
+        <select name="event" id="event">
+            {% for event in events %}
+                <option value="{{ event.event_id }}">{{ event.event_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="num_tickets">Number of Tickets:</label>
+        <input type="number" name="num_tickets" id="num_tickets" min="1" required>
+    </div>
+    <button type="submit">Book Event</button>
+</form>
+{% endblock %}

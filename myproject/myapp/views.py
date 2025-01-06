@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
+
+from .models import Concert, Ticket
+from .forms import TicketForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -540,8 +543,8 @@ def ticket_print(request):
     return render(request, 'ticket_print.html', {'booking': booking})
 
 
-<<<<<<< HEAD
-
+# Head
+#park
 from .models import Park, Ticket
 from .forms import TicketForm
 
@@ -568,7 +571,7 @@ def book_ticket(request, park_id):
 def ticket_detail(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     return render(request, 'ticket_detail.html', {'ticket': ticket})
-=======
+#admin
 def adminn_dashboard(request):
     buses = Bus.objects.all()
     return render(request, 'adminn_dashboard.html', {'buses': buses})
@@ -632,7 +635,31 @@ def ad_edit_plane(request, plane_id):
         form = PlaneForm(instance=plane)
     return render(request, 'ad_edit_plane.html', {'form': form})
 
+#event
 
->>>>>>> a44a80a2a35b749d3ff82048c1c40503f92ed62c
+def home(request):
+    concerts = Concert.objects.all()
+    return render(request, 'home.html', {'concerts': concerts})
+
+@login_required
+def book_ticket(request, concert_id):
+    concert = get_object_or_404(Concert, id=concert_id)
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.concert = concert
+            ticket.save()
+            return redirect('ticket_detail', ticket_id=ticket.id)
+    else:
+        form = TicketForm()
+    return render(request, 'book_ticket.html', {'form': form, 'concert': concert})
+
+@login_required
+def ticket_detail(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    return render(request, 'ticket_detail.html', {'ticket': ticket})
+
 
 

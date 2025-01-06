@@ -23,15 +23,18 @@ urlpatterns = [
     path('book_car/<int:car_id>/', views.book_car, name='book_car'),
     path('book/<int:park_id>/', views.book_ticket, name='book_ticket'),
     path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket_detail'),
+    path('book/<int:concert_id>/', views.book_ticket, name='book_ticket'),
+    path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket_detail'),
+
 
     #path('payment/', views.payment_page,name='payment'),
     path('payment/', views.payment_page, name='payment_page'),
     path('ticket/<int:booking_id>/', views.ticket_print, name='ticket_print'),
-<<<<<<< HEAD
+
     
+#<<<<<<< HEAD
 
-
-=======
+#=======
     path('adminn_dashboard/', views.adminn_dashboard, name='adminn_dashboard'),
     path('ad_add_bus/', views.ad_add_bus, name='ad_add_bus'),
     path('ad_edit_bus/<int:bus_id>/', views.ad_edit_bus, name='ad_edit_bus'),
