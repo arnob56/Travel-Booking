@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Bus,User,BusBooking,Air,AirBooking,Train,Launch,Car,Hotel,Events
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm, UserLoginForm
+from .forms import UserRegisterForm, UserLoginForm , BusForm, PlaneForm
 from .models import User
 # Home View
 
@@ -538,5 +538,71 @@ def ticket_print(request):
         return redirect('payment_page')
 
     return render(request, 'ticket_print.html', {'booking': booking})
+
+
+def adminn_dashboard(request):
+    buses = Bus.objects.all()
+    return render(request, 'adminn_dashboard.html', {'buses': buses})
+
+def ad_add_bus(request):
+    if request.method == 'POST':
+        form = BusForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Bus added successfully!")
+            return redirect('adminn_dashboard')
+    else:
+        form = BusForm()
+    return render(request, 'ad_add_bus.html', {'form': form})
+
+
+def ad_edit_bus(request, bus_id):
+    bus = get_object_or_404(Bus, bus_id=bus_id)
+    if request.method == 'POST':
+        form = BusForm(request.POST, instance=bus)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Bus updated successfully!")
+            return redirect('adminn_dashboard')
+    else:
+        form = BusForm(instance=bus)
+    return render(request, 'ad_edit_bus.html', {'form': form})
+
+def ad_delete_bus(request, bus_id):
+    bus = get_object_or_404(Bus, bus_id=bus_id)
+    bus.delete()
+    messages.success(request, "Bus deleted successfully!")
+    return redirect('adminn_dashboard')
+
+
+def adminn_plane(request):
+    planes = Air.objects.all()
+    return render(request, 'adminn_plane.html', {'planes': planes})
+
+def ad_add_plane(request):
+    if request.method == 'POST':
+        form = PlaneForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Plane added successfully!")
+            return redirect('adminn_plane')
+    else:
+        form = PlaneForm()
+    return render(request, 'ad_add_plane.html', {'form': form})
+
+
+def ad_edit_plane(request, plane_id):
+    plane = get_object_or_404(Air, plane_id=plane_id)
+    if request.method == 'POST':
+        form = PlaneForm(request.POST, instance=plane)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Plane updated successfully!")
+            return redirect('adminn_plane')
+    else:
+        form = PlaneForm(instance=plane)
+    return render(request, 'ad_edit_plane.html', {'form': form})
+
+
 
 

@@ -24,7 +24,12 @@ urlpatterns = [
     #path('payment/', views.payment_page,name='payment'),
     path('payment/', views.payment_page, name='payment_page'),
     path('ticket/<int:booking_id>/', views.ticket_print, name='ticket_print'),
-
+    path('adminn_dashboard/', views.adminn_dashboard, name='adminn_dashboard'),
+    path('ad_add_bus/', views.ad_add_bus, name='ad_add_bus'),
+    path('ad_edit_bus/<int:bus_id>/', views.ad_edit_bus, name='ad_edit_bus'),
+    path('ad_delete_bus/<int:bus_id>/', views.ad_delete_bus, name='ad_delete_bus'),
+    path('adminn_plane/', views.adminn_plane, name='adminn_plane'),
+    path('ad_add_plane/', views.ad_add_plane, name='ad_add_plane'),
 ]
    
 
