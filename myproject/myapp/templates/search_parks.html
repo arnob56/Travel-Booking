@@ -154,74 +154,46 @@
             <a href="{%url 'search_parks' %}">Park</a>
             <a href="{%url 'search_hotel' %}">Hotels</a>
             <a href="{%url 'search_cars' %}">Car Rental</a>
-            <a href="{%url 'search_events' %}">Events</a>
 
         
     </nav>
 
-    <section id="buses">
-        <h2>Search for Buses</h2>
+    <section id="parks">
+        <h2>Search for Parks</h2>
 
         <form method="GET">
             {% csrf_token %}
-            <label for="departure_location">From:</label>
-            <input type="text" id="departure_location" name="departure_location" required>
 
-            <label for="destination_location">To:</label>
-            <input type="text" id="destination_location" name="destination_location" required>
+
+            <label for="park_location">To:</label>
+            <input type="text" id="park_location" name="park_location" required>
 
             <label for="journey_date">Journey Date:</label>
-            <input type="date" id="journey_date" name="journey_date" required>
+            <input type="date" id="date" name="date" required>
 
             <button type="submit">Search</button>
         </form>
 
-        {% if buses %}
-            <h3>Available Buses</h3>
+        {% if parks %}
+            <h3>Available Parks</h3>
             <ul>
-                {% for bus in buses %}
+                {% for park in parks %}
                     <li>
-                        <strong>{{ bus.bus_name }}</strong><br>
-                        Description: {{ bus.bus_description }}<br>
-                        Price: {{ bus.fare }} per seat<br>
-                        Departure: {{ bus.departure_location }} → {{ bus.destination_location }}<br>
-                        Journey Date: {{ bus.journey_date }}<br>
-                        Available Seats: {{ bus.available_seats }}<br>
-                        <a href="{% url 'book_bus' bus.bus_id %}">Book Now</a>
+                        <strong>{{ park.park_name }}</strong><br>
+                        
+                        Price: {{ park.fare }} for Six person<br>
+                        
+                        Journey Date: {{ park.date }}<br>
+                        
+                        <a href="{% url 'book_park' park.park_id %}">Book Now</a>
                     </li>
                 {% endfor %}
             </ul>
-        {% elif buses is not None %}
-            <p>No buses found for your search criteria.</p>
+        {% elif parks is not None %}
+            <p>No parks found for your search criteria.</p>
         {% endif %}
     </section>
 
-    <section id="trains">
-        <h2 class="section-header">Trains</h2>
-    </section>
 
-    <section id="launches">
-        <h2 class="section-header">Launches</h2>
-    </section>
-
-    <section id="air">
-        <h2 class="section-header">Air</h2>
-    </section>
-
-    <section id="parks">
-        <h2 class="section-header">Parks</h2>
-    </section>
-
-    <section id="events">
-        <h2 class="section-header">Events</h2>
-    </section>
-
-    <section id="hotels">
-        <h2 class="section-header">Hotels</h2>
-    </section>
-
-    <section id="car_rental">
-        <h2 class="section-header">Car Rental</h2>
-    </section>
 </body>
 </html>

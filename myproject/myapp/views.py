@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Bus,User,BusBooking,Air,AirBooking,Train,Launch,Car,Hotel,Events
+from .models import Bus,User,BusBooking,Air,AirBooking,Train,Launch,Car,Hotel,Events,Park
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm, UserLoginForm , BusForm, PlaneForm, HotelForm, CarForm ,TrainForm, LaunchForm ,EventsForm
 from .models import User
@@ -128,7 +128,21 @@ def search_cars(request):
             destination_location__icontains=destination_location,
             journey_date=journey_date,
         )
-    return render(request, 'search_cars.html', {'cars': cars})  
+    return render(request, 'search_cars.html', {'cars': cars})
+
+
+def search_parks(request):
+    parks = None
+    
+    if request.GET:
+        park_location = request.GET.get('park_location')
+        journey_date = request.GET.get('journey_date')
+        parks = Park.objects.filter(
+            
+            park_location__icontains=park_location,
+            date=journey_date,
+        )
+    return render(request, 'search_parks.html', {'parks': parks})   
 
 def hotel_booking(request):
 
@@ -144,6 +158,21 @@ def hotel_booking(request):
             journey_date=journey_date,
         )
     return render(request, 'hotel_booking.html', {'hotels': hotels})
+
+def search_events(request):
+
+
+    events = None
+    
+    if request.GET:
+        event_location=request.GET.get('event_location')
+        event_date = request.GET.get('event_date')
+        events = Events.objects.filter(
+            
+            event_location__icontains=event_location,
+            event_date=event_date
+        )
+    return render(request, 'search_events.html', {'events': events})
 
 
  # Ensures only logged-in users can book
@@ -504,6 +533,114 @@ def book_hotel(request, hotel_id):
     
     # Render the booking form with seats data
     return render(request, 'book_hotel.html', {'hotel':hotel, 'seats': seats})
+
+def book_event(request, event_id):
+    event = get_object_or_404(Events, event_id=event_id)
+    
+    # Prepare the seat grid data
+    rows = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    columns = "123456789"
+    seats = []
+
+    for row in rows:
+        for col in columns:
+            seat_number = f"{row}{col}"
+            seats.append(seat_number)
+
+    if request.method == 'POST':
+        # Safely retrieve form values
+        passenger_name = request.POST.get('passenger_name', '').strip()
+        passenger_phone = request.POST.get('passenger_phone', '').strip()
+        selected_seats = request.POST.get('selected_seats', '').strip()
+        
+        # Validate required fields
+        if not passenger_name:
+            messages.error(request, "Passenger name is required.")
+            return redirect('book_event', event_id=event_id)
+        if not passenger_phone:
+            messages.error(request, "Passenger phone is required.")
+            return redirect('book_event', event_id=event_id)
+        if not selected_seats:
+            messages.error(request, "Please select the number of seats to book.")
+            return redirect('book_event', event_id=event_id)
+        
+        # Split selected seats
+        seat_list = selected_seats.split(',')
+        
+        # Check if enough seats are available
+        if len(seat_list) > event.available_seats:
+            messages.error(request, "Not enough available seats.")
+            return redirect('book_bus', event_id=event_id)
+        
+        # Calculate total price
+        total_price = len(seat_list) * event.price
+        #total_price=total_price,
+        
+        # Create a new booking and associate it with the logged-in user
+        booking = BusBooking(
+            
+            passenger_name=passenger_name,
+            passenger_phone=passenger_phone,
+            selected_seats=selected_seats,
+            total_price=total_price,
+            
+        )
+        
+        # Update available seats and save booking
+        event.available_seats -= len(seat_list)
+        event.save()
+        booking.save()
+        
+        # Redirect to the payment page
+        #return redirect('payment_page', booking_id=booking.bus_book_id)
+    
+    # Render the booking form with seats data
+    return render(request, 'book_event.html', {'event':event, 'seats': seats})
+
+def book_parks(request, park_id):
+    park = get_object_or_404(Park, park_id=park_id)
+    if request.method == 'POST':
+        # Safely retrieve form values
+        passenger_name = request.POST.get('passenger_name', '').strip()
+        passenger_phone = request.POST.get('passenger_phone', '').strip()
+        selected_seats = request.POST.get('selected_seats', '').strip()  #tickets
+        
+        # Validate required fields
+        if not passenger_name:
+            messages.error(request, "Passenger name is required.")
+            return redirect('book_parks', park_id=park_id)
+        if not passenger_phone:
+            messages.error(request, "Passenger phone is required.")
+            return redirect('book_parks', park_id=park_id)
+
+        
+        # Split selected seats
+
+        
+        # Calculate total price
+        total_price =park.fare*selected_seats
+        #total_price=total_price,
+        
+        # Create a new booking and associate it with the logged-in user
+        booking = BusBooking(
+            
+            passenger_name=passenger_name,
+            passenger_phone=passenger_phone,
+            selected_seats=selected_seats,
+            total_price=total_price,
+            
+        )
+        
+        # Update available seats and save booking
+
+        car.save()
+        booking.save()
+        
+        # Redirect to the payment page
+        #return redirect('payment_page', booking_id=booking.bus_book_id)
+    
+    # Render the booking form with seats data
+    return render(request, 'book_parks.html', {'park':park})
 
 
 

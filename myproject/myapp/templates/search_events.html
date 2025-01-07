@@ -156,43 +156,43 @@
             <a href="{%url 'search_cars' %}">Car Rental</a>
             <a href="{%url 'search_events' %}">Events</a>
 
+
         
     </nav>
 
     <section id="buses">
-        <h2>Search for Buses</h2>
+        <h2>Search for Events</h2>
 
         <form method="GET">
             {% csrf_token %}
-            <label for="departure_location">From:</label>
-            <input type="text" id="departure_location" name="departure_location" required>
 
-            <label for="destination_location">To:</label>
-            <input type="text" id="destination_location" name="destination_location" required>
 
-            <label for="journey_date">Journey Date:</label>
-            <input type="date" id="journey_date" name="journey_date" required>
+            <label for="event_location">To:</label>
+            <input type="text" id="event_location" name="event_location" required>
+
+            <label for="event_date">Journey Date:</label>
+            <input type="date" id="event_date" name="event_date" required>
 
             <button type="submit">Search</button>
         </form>
 
-        {% if buses %}
-            <h3>Available Buses</h3>
+        {% if events %}
+            <h3>Available Events</h3>
             <ul>
-                {% for bus in buses %}
+                {% for event in events %}
                     <li>
-                        <strong>{{ bus.bus_name }}</strong><br>
-                        Description: {{ bus.bus_description }}<br>
-                        Price: {{ bus.fare }} per seat<br>
-                        Departure: {{ bus.departure_location }} → {{ bus.destination_location }}<br>
-                        Journey Date: {{ bus.journey_date }}<br>
-                        Available Seats: {{ bus.available_seats }}<br>
-                        <a href="{% url 'book_bus' bus.bus_id %}">Book Now</a>
+                        <strong>{{ event.event_name }}</strong><br>
+                       
+                        Price: {{ event.price }} per seat<br>
+                        Departure: {{ event.event_location }}
+                        Journey Date: {{ event.event_date }}<br>
+                        Available Seats: {{ event.available_seats }}<br>
+                        <a href="{% url 'book_event' event.event_id %}">Book Now</a>
                     </li>
                 {% endfor %}
             </ul>
-        {% elif buses is not None %}
-            <p>No buses found for your search criteria.</p>
+        {% elif events is not None %}
+            <p>No events found for your search criteria.</p>
         {% endif %}
     </section>
 

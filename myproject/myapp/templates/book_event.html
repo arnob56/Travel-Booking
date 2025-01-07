@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Launch - Advanced UI</title>
+    <title>Book event - Advanced UI</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -97,31 +97,86 @@
             text-decoration: none;
         }
     </style>
+<script>
+    function toggleSeatSelection(seat) {
+        // If the seat is unavailable or already selected, prevent toggling
+        if (seat.classList.contains('unavailable') || seat.classList.contains('selected')) {
+            alert(`Seat ${seat.dataset.seat} is either unavailable or already selected!`);
+            return;
+        }
 
+        // Mark the seat as selected
+        seat.classList.add('selected');
+        updateSelectedSeats();
+    }
+
+    function updateSelectedSeats() {
+        // Collect all selected seats
+        const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'))
+            .map(seat => seat.dataset.seat);
+
+        // Update the hidden input field with selected seat data
+        document.getElementById('selectedSeatsInput').value = selectedSeats.join(', ');
+        console.log("Selected Seats: " + selectedSeats.join(', '));
+    }
+
+    function validateSelection() {
+        const selectedSeats = document.getElementById('selectedSeatsInput').value;
+        if (!selectedSeats) {
+            alert("Please select at least one seat before booking.");
+            return false;
+        }
+        return true;
+    }
+
+    function disableSelectedSeats() {
+        const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'));
+        selectedSeats.forEach(seat => {
+            seat.classList.add('unavailable'); // Mark as unavailable
+            seat.onclick = null; // Disable click event
+        });
+    }
+
+    // Attach the disableSelectedSeats function to the form submission
+    document.querySelector('form').addEventListener('submit', function(event) {
+        if (validateSelection()) {
+            disableSelectedSeats(); // Disable seats after confirmation
+        }
+    });
 </script>
 </head>
 <body>
-    <header>Book Park</header>
+    <header>Book Your event</header>
 
-    <h2>{{ park.park_name }}</h2>
-    <p><strong>Location:</strong> {{ park.park_location }} </p>
-    <p><strong>Date:</strong> {{ park.date }}</p>
-    <h2>fare: {{hotel.fare}}</h2>
+    <h2>{{ event.event_name }}</h2>
+    <p><strong>From:</strong> {{ event.event_location }} <strong></strong></p>
+    <p><strong>Date:</strong> {{ event.event_date }}</p>
+    <h2>Price per Seat: {{ total_price}}</h2>
+    <p><strong>Available Seats:</strong> {{ event.available_seats }}</p>
 
-
+    <div class="seat-container">
+        {% for seat in seats %}
+            <div 
+                class="seat {% if seat in bus.booked_seats %}unavailable{% endif %}" 
+                data-seat="{{ seat }}" 
+                onclick="toggleSeatSelection(this)">
+                {{ seat }}
+            </div>
+        {% endfor %}
+    </div>
 
     <div class="form-container">
         <form method="POST" onsubmit="return validateSelection()">
             {% csrf_token %}
             <input type="text" name="passenger_name" placeholder="Passenger Name" required>
             <input type="text" name="passenger_phone" placeholder="Passenger Phone" required>
-            <input type="hidden" id="selectedSeatsInput" name="selected_seats">
+            <input type="hidden" id="selectedSeatsInput" name="selected_seats" required>
             <button type="submit">Pay Now </a></button>
         </form>
     </div>
 
     <div class="back-link">
-        <a href="{% url 'search_bus' %}">Back to Search</a>
+        <a href="{% url 'search_buses' %}">Back to Search</a>
     </div>
 </body>
 </html>
