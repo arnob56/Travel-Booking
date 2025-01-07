@@ -63,11 +63,11 @@ urlpatterns = [
     # path('ad_delete_car/<int:car_id>/', views.ad_delete_car, name='ad_delete_car'),
 
 
-    # #Events
-    # path('adminn_Events/', views.adminn_car, name='adminn_car'),
-    # path('ad_add_car/', views.ad_add_car, name='ad_add_car'),
-    # path('ad_edit_car/<int:car_id>/', views.ad_edit_car, name='ad_edit_car'),
-    # path('ad_delete_car/<int:car_id>/', views.ad_delete_car, name='ad_delete_car'),
+    #Events
+    path('adminn_event/', views.adminn_event, name='adminn_event'),
+    path('ad_add_event/', views.ad_add_event, name='ad_add_event'),
+    path('ad_edit_event/<int:event_id>/', views.ad_edit_event, name='ad_edit_event'),
+    path('ad_delete_event/<int:event_id>/', views.ad_delete_event, name='ad_delete_event'),
 
     
     

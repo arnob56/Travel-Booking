@@ -53,10 +53,10 @@ class CarForm(forms.ModelForm):
 #         fields = ['bus_id','bus_name', 'bus_description', 'departure_location', 'destination_location','distance','total_time','start_time','arival_time','journey_date','bus_type','total_seats','available_seats','fare']
 
 
-# class BusForm(forms.ModelForm):  #CHANGE TO EVENT
-#     class Meta:
-#         model = Bus
-#         fields = ['bus_id','bus_name', 'bus_description', 'departure_location', 'destination_location','distance','total_time','start_time','arival_time','journey_date','bus_type','total_seats','available_seats','fare']
+class EventsForm(forms.ModelForm):  #CHANGE TO EVENT
+    class Meta:
+        model = Events
+        fields = ['event_id','event_name', 'event_location','event_date','event_type','total_seats','available_seats','price']
 
 
 

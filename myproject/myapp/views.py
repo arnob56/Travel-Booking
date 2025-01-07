@@ -3,9 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Bus,User,BusBooking,Air,AirBooking,Train,Launch,Car,Hotel
+from .models import Bus,User,BusBooking,Air,AirBooking,Train,Launch,Car,Hotel,Events
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm, UserLoginForm , BusForm, PlaneForm, HotelForm, CarForm ,TrainForm, LaunchForm #ParkForm, #EventForm
+from .forms import UserRegisterForm, UserLoginForm , BusForm, PlaneForm, HotelForm, CarForm ,TrainForm, LaunchForm ,EventsForm
 from .models import User
 # Home View
 
@@ -804,9 +804,9 @@ def ad_delete_launch(request, launch_id):
 # #Event
 
 
-# def adminn_car(request):
-#     cars = Car.objects.all()
-#     return render(request, 'adminn_car.html', {'cars': cars})
+def adminn_event(request):
+    events = Events.objects.all()
+    return render(request, 'adminn_event.html', {'events': events})
 
 # def ad_add_car(request):
 #     if request.method == 'POST':
@@ -839,35 +839,35 @@ def ad_delete_launch(request, launch_id):
 #     messages.success(request, "Car deleted successfully!")
 #     return redirect('adminn_car')
 
-def ad_add_Events(request):
+def ad_add_event(request):
     if request.method == 'POST':
         form = EventsForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "event added successfully!")
-            return redirect('adminn_dashboard')
+            return redirect('adminn_event')
     else:
         form = EventsForm()
     return render(request, 'ad_add_event.html', {'form': form})
 
 
-def ad_edit_Events(request, event_id):
-    buss = get_object_or_404(Bus, event_id=event_id)
+def ad_edit_event(request, event_id):
+    events = get_object_or_404(Events, event_id=event_id)
     if request.method == 'POST':
-        form = EventsForm(request.POST, instance=Events)
+        form = EventsForm(request.POST, instance=events)
         if form.is_valid():
             form.save()
             messages.success(request, "event updated successfully!")
-            return redirect('adminn_dashboard')
+            return redirect('adminn_event')
     else:
         form = EventsForm(instance=Events)
     return render(request, 'ad_edit_event.html', {'form': form})
 
-def ad_delete_Events(request, Events_id):
-    buss = get_object_or_404(Bus, Events_id=Events_id)
-    buss.delete()
+def ad_delete_event(request, events_id):
+    events = get_object_or_404(Events, events_id=events_id)
+    events.delete()
     messages.success(request, "event deleted successfully!")
-    return redirect('adminn_dashboard')
+    return redirect('adminn_event')
 
 
 
